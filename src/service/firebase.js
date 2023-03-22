@@ -1,6 +1,6 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
-
+import "firebase/compat/functions";
 const firebaseConfig = {
   apiKey: "AIzaSyAQBm4GHT6O7BNwxRqb3Q-vFOKMhMHdiyk",
   authDomain: "opanai-caption.firebaseapp.com",
@@ -12,5 +12,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+export const functions = firebase.functions();
 
 export const auth = firebase.auth();
