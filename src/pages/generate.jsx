@@ -5,8 +5,8 @@ import {
 } from '../App';
 import { auth } from '../service/firebase';
 import { useNavigate } from 'react-router-dom';
-import { useState ,useContext} from "react";
-import {handleLogout} from '../service/authentication';
+import { useState, useContex, useRef } from "react";
+import { handleLogout } from '../service/authentication';
 
 export default function GetCaption({ customer }) {
 
@@ -14,9 +14,11 @@ export default function GetCaption({ customer }) {
     const [caption, setCaption] = useState(null);
     const [inputVal, setInputVal] = useState("");
 
-    const user = useContext(UserContext);
+    const quoteElement = useRef(null);
+    const emojiElement = useRef(null);
+    //     const user = useContext(UserContext);
 
-   console.log(user);
+    //    console.log(user);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -24,73 +26,90 @@ export default function GetCaption({ customer }) {
     }
 
     const genCaption = (e) => {
-   
+
         e.preventDefault();
+        console.log("Quote status : " + quoteElement.current.checked);
 
         setCaption(null);
         if (inputVal !== "") {
             setProcessing(true);
-    
+
             axios.post('https://openai-fiver.vercel.app/', {
                 keywords: inputVal,
-                quote: true,
-                emoji: true,
+                quote: quoteElement.current.checked,
+                emoji: emojiElement.current.checked,
             }).then((response) => {
 
 
                 let { data } = response;
-               
+
 
                 setCaption(data.result.content);
             }).catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                setProcessing(false);
-            });
+                .finally(() => {
+                    setProcessing(false);
+                });
 
         }
         else {
             alert("Please Type Something before submitting!");
         }
-     
-        
+
+
     }
 
     return (
         <>
+            {caption && <div className="px-4 py-2 bg-red-100 rounded-t-lg my-4">
 
+                <p>{caption}</p>
+
+            </div>}
             <form>
                 <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 ">
 
-                    {caption && <div className="px-4 py-2 bg-red-100 rounded-t-lg ">
 
-                        <p>{caption}</p>
 
-                    </div>}
 
-            
 
                     <div className="px-4 py-2 bg-white rounded-t-lg ">
-                        <label className="sr-only">Your comment</label>
+                        <label className="sr-only">Your Keywords</label>
                         <textarea
                             value={inputVal}
                             onChange={(e) => { setInputVal(e.target.value) }}
 
-                            id="comment" rows="4" className="w-full outline-none px-0 text-sm text-gray-900 bg-white border-0  focus:ring-0 " placeholder="Write a comment..." required></textarea>
+                            id="comment" rows="4" className="w-full outline-none px-0 text-sm text-gray-900 bg-white border-0  focus:ring-0 " placeholder="Your Keywords..." required></textarea>
                     </div>
+
+
+                    <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+                        <label>
+                            <input type="checkbox" ref={quoteElement} /> Include Quote
+                        </label>
+
+                    </div>
+                    <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+                        <label>
+                            <input type="checkbox" ref={emojiElement} /> Include Emoji
+                        </label>
+                    </div>
+
+
                     <div className="flex items-center justify-between px-3 py-2 border-t ">
+
                         <button
                             onClick={(e) => {
-                                
+
                                 genCaption(e);
                             }}
 
 
                             type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-blue-800"
-                             style={{ backgroundColor: processing ? 'rgb(235,235,228)' : '' }} disabled={processing} >
-                            
-                            
+                            style={{ backgroundColor: processing ? 'rgb(235,235,228)' : '' }} disabled={processing} >
+
+
 
                             <>Generate</>
 
@@ -115,6 +134,9 @@ export default function GetCaption({ customer }) {
 
                 </div>
             </form>
+
+
+
             <button
                 onClick={handleLogout}
                 type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200  hover:bg-red-800">

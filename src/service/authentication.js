@@ -10,7 +10,7 @@ const signInWithPopUp = () => {
 
 const getUser = () => {
   return new Promise((resolve, reject) => {
-    resolve(auth.currentUser());
+    resolve(auth.currentUser);
   });
 };
 
