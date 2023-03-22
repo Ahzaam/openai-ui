@@ -1,9 +1,9 @@
 import "./App.css";
-
+import GetCaption from "./pages/generate";
 function App() {
   return (
     <div>
-      <ProductDisplay />
+      <GetCaption />
     </div>
   );
 }
