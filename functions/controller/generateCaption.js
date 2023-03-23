@@ -1,10 +1,8 @@
-import apikey from "../apikey.json";
-i;
 var { Configuration } = require("openai");
 var { OpenAIApi } = require("openai");
 const functions = require("firebase-functions");
 require("dotenv").config();
-
+const apikey = require("../apikey.json");
 const configuration = new Configuration({
   apiKey: apikey.openaiapikey,
 });

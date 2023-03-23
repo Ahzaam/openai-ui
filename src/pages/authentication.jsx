@@ -5,7 +5,7 @@ import {  useNavigate } from 'react-router-dom';
 
 import { functions } from "../service/firebase";
 export default function Authentication() {
-    functions.httpsCallable('helloWorld')({keword:'hi hello world'}).then((response) => {
+    functions.httpsCallable('helloWorld')({keword:'hi hello world', quote:true}).then((response) => {
         console.log(response)
     })
     // axios.post('https://openai-fiver.vercel.app/', {

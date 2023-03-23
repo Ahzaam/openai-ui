@@ -4,7 +4,7 @@ const functions = require("firebase-functions");
 require("dotenv").config();
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY || functions.config().openai.key,
+  apiKey: process.env.OPENAI_API_KEY || "functions.config().openai.key",
 });
 const openai = new OpenAIApi(configuration);
 exports.generateCaption = async (keyword) => {
@@ -84,6 +84,5 @@ function generatePrompt(keywords, quote, emoji) {
     prompt += "Do not Include emoji in the caption.";
   }
 
-  console.log(prompt);
   return prompt;
 }
