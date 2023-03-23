@@ -20,15 +20,13 @@ function App() {
     <UserContext.Provider value={user}>
 
       <Router>
-        <div>
-          <section>
+  
             <Routes>
               <Route path="/" element={<Authentication />} />
               <Route path="/caption" element={<GetCaption />} />
 
             </Routes>
-          </section>
-        </div>
+    
       </Router>
 
     </UserContext.Provider>

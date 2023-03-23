@@ -61,7 +61,7 @@ export default function GetCaption({ customer }) {
     }
 
     return (
-        <>
+        <section>
             {caption && <div className="px-4 py-2 bg-red-100 rounded-t-lg my-4">
 
                 <p>{caption}</p>
@@ -106,7 +106,7 @@ export default function GetCaption({ customer }) {
                             }}
 
 
-                            type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-blue-800"
+                            type="submit" className="rounded bg-[#34eb49] text-gray-50 hover:bg-gradient-to-r hover:from-[#1ba62a] hover:to-[#1ba62a]"
                             style={{ backgroundColor: processing ? 'rgb(235,235,228)' : '' }} disabled={processing} >
 
 
@@ -139,11 +139,10 @@ export default function GetCaption({ customer }) {
 
             <button
                 onClick={handleLogout}
-                type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200  hover:bg-red-800">
+                type="submit" className=" items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200  hover:bg-red-800">
                 Logout
             </button>
-
-        </>
+        </section>
     )
 
 }
