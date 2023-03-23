@@ -15,14 +15,12 @@ const getUser = () => {
 };
 
 const handleLogout = () => {
-  signOut(auth)
+  auth.signOut()
     .then(() => {
-      // Sign-out successful.
-
-      console.log("Signed out successfully");
+      console.log('User signed out successfully');
     })
     .catch((error) => {
-      // An error happened.
+      console.error(error);
     });
 };
 export { signInWithPopUp, getUser, handleLogout };

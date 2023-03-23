@@ -2,9 +2,9 @@ import {getUser} from '../service/authentication'
 
 
 export default function Home(){
-    getUser().then((user) => {
-        console.log(user._delegate)
-    })
+    // getUser().then((user) => {
+    //     console.log(user._delegate)
+    // })
   return (
     <>
     <div className='w-full h-full  flex items-center justify-center'>
