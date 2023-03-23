@@ -19,7 +19,7 @@ function App() {
         // User is signed in
         console.log(user);
         setUser(user);
- 
+
       } else {
         // User is signed out
         console.log('User is not signed in');
@@ -41,7 +41,7 @@ function App() {
             path="/caption"
 
             element={
-              <PrivateRoute auth={true}>
+              <PrivateRoute >
                 <GetCaption />
               </PrivateRoute>
             }
