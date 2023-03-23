@@ -1,12 +1,13 @@
 var { Configuration } = require("openai");
 var { OpenAIApi } = require("openai");
+const functions = require("firebase-functions");
 require("dotenv").config();
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || functions.config().openai.key,
 });
 const openai = new OpenAIApi(configuration);
-exports.generateCaption = async (keywords) => {
+exports.generateCaption = async (keyword) => {
   return new Promise(async (resolve, reject) => {
     if (!configuration.apiKey) {
       reject({
@@ -18,9 +19,9 @@ exports.generateCaption = async (keywords) => {
       return;
     }
 
-    const keywords = keywords || "";
-    const quote = quote || false;
-    const emoji = emoji || false;
+    const keywords = keyword || "";
+    const quote = false;
+    const emoji = false;
 
     if (keywords.trim().length === 0) {
       reject({
