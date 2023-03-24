@@ -1,15 +1,15 @@
 import axios from "axios";
-import { signInWithPopUp, getUser } from "../service/authentication";
-import { redirect } from "react-router-dom";
+import { signInWithPopUp } from "../service/authentication";
+
 import { useNavigate } from 'react-router-dom';
 
 import { functions } from "../service/firebase";
 export default function Authentication() {
 
 
-    functions.httpsCallable('helloWorld')({ keword: 'hi hello world', quote: true }).then((response) => {
-        console.log(response)
-    })
+    // functions.httpsCallable('helloWorld')({ keword: 'hi hello world', quote: true }).then((response) => {
+    //     console.log(response)
+    // })
     // axios.post('https://openai-fiver.vercel.app/', {
     //     keywords: 'ahzam, pilot'
     // }).then((response) => {
@@ -21,7 +21,7 @@ export default function Authentication() {
     const navigate = useNavigate();
     const google_auth = async () => {
         signInWithPopUp();
-        const user = await getUser();
+        
 
         navigate("/caption");
     }

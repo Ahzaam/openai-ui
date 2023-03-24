@@ -1,5 +1,6 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import "firebase/compat/firestore";
 import "firebase/compat/functions";
 const firebaseConfig = {
   apiKey: "AIzaSyAQBm4GHT6O7BNwxRqb3Q-vFOKMhMHdiyk",
@@ -15,5 +16,5 @@ firebase.initializeApp(firebaseConfig);
 
 export const functions = firebase.functions();
 firebase.functions().useEmulator("localhost", 5001);
-
+export const firestore = firebase.firestore();
 export const auth = firebase.auth();
