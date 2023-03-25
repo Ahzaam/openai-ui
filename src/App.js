@@ -47,7 +47,7 @@ function App() {
         <Routes>
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile isAuth={user} />} />
 
           <Route path="/*" element={<Home />} />
         </Routes>

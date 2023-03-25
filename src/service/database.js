@@ -19,3 +19,20 @@ export async function getUserData(uid) {
       });
   });
 }
+
+export async function getSubscriptionData(uid) {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("users")
+      .doc(uid)
+      .collection("subscriptions")
+      .where("canceled_at", "==", null)
+      .get()
+      .then((response) => {
+        resolve({
+          data: response.docs.map((doc) => doc.data()),
+          id: response.docs.map((doc) => doc.id),
+        });
+      });
+  });
+}

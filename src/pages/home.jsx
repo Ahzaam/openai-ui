@@ -15,10 +15,11 @@ export default function Home() {
       {/* dfghjkl;fg */}
       <div className=" py-10 my-20">
         <div className="container mx-auto px-5">
-          <h2 className="text-5xl font-semibold text-gray-800 text-center mb-8">
-            Introducing our AI Writing Tool
+          <h2 className="text-7xl font-semibold text-gray-800 text-center mb-8">
+            Introducing our <span className="text-blue-600">AI Writing </span>
+            Tool
           </h2>
-          <p className="text-2xl text-gray-700 text-center mb-10">
+          <p className="text-2xl text-gray-700 text-center mb-10 max-w-4xl mx-auto">
             Our AI Writing Tool helps you create ebooks, captions, and blog
             posts quickly and easily. With our tool, you can save time and
             produce high-quality content that engages your audience.
@@ -26,7 +27,7 @@ export default function Home() {
         </div>
       </div>
       <div className="bg-gray-100 md:py-12">
-        <div className="container mx-auto py-10 px-7 ">
+        <div className="container  mx-auto py-10 px-7 ">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white p-4 shadow-lg rounded">
               <h3 className="text-2xl font-bold mb-2 text-gray-800">
@@ -37,7 +38,7 @@ export default function Home() {
                 Simply provide a topic and some keywords, and our tool will do
                 the rest.
               </p>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
                 Start Writing
               </button>
             </div>
@@ -51,7 +52,7 @@ export default function Home() {
                 on-brand.
               </p>
               <Link to="/caption">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
                   Generate Captions
                 </button>
               </Link>
@@ -65,7 +66,7 @@ export default function Home() {
                 full articles for you. All you need to do is provide some
                 keywords and our tool will take care of the rest.
               </p>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
                 Generate Blog Post
               </button>
             </div>
@@ -106,7 +107,7 @@ export default function Home() {
                 AI-powered blog post generator saves me so much time and
                 produces high-quality content that my readers love."
               </p>
-              <p className="text-gray-800 font-bold mt-4">- Sarah J.</p>
+              <p className="text-gray-800 font-bold mt-4">- Ahzam Fawmee.</p>
             </div>
             <div className="bg-white p-8 shadow rounded">
               <p className="text-gray-700">
@@ -115,7 +116,7 @@ export default function Home() {
                 been a lifesaver. It helps me come up with creative captions
                 that get more likes and comments."
               </p>
-              <p className="text-gray-800 font-bold mt-4">- John D.</p>
+              <p className="text-gray-800 font-bold mt-4">- Sajid Ameen.</p>
             </div>
             <div className="bg-white p-8 shadow rounded">
               <p className="text-gray-700">
