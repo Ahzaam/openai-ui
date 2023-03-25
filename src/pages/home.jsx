@@ -7,11 +7,11 @@ export default function Home() {
   //     console.log(user._delegate)
   // })
 
-  functions
-    .httpsCallable("helloWorld")({ keword: "hi hello world", quote: true })
-    .then((response) => {
-      console.log(response);
-    });
+  // functions
+  //   .httpsCallable("caption")({ keword: "hi hello world", quote: true })
+  //   .then((response) => {
+  //     console.log(response);
+  //   });
   return (
     <>
       {/* dfghjkl;fg */}

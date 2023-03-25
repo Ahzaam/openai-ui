@@ -5,12 +5,11 @@ require("dotenv").config();
 
 const apikey = require("../apikey.json");
 const configuration = new Configuration({
-  apiKey: apikey.openaiapikey,
+  apiKey: "",
 });
 const openai = new OpenAIApi(configuration);
 
 exports.generateCaption = async (keyword, quote = false) => {
-  
   return new Promise(async (resolve, reject) => {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
