@@ -1,18 +1,13 @@
 import axios from "axios";
 // import { useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from "react";
-import { handleLogout } from "../service/authentication";
+import { useState, useEffect } from "react";
 import { functions } from "../service/firebase";
 import "../css/caption.css";
 export default function GetCaption({ customer }) {
   const [processing, setProcessing] = useState(false);
-  const [caption, setCaption] = useState(null);
-  const [tags, setTags] = useState([]);
+  const [captionArr, setCaptionArr] = useState([]);
   const [inputVal, setInputVal] = useState("");
-  const [fetchError, setFetchError] = useState(false);
 
-  const quoteElement = useRef(null);
-  const emojiElement = useRef(null);
   //     const user = useContext(UserContext);
 
   //    console.log(user);
@@ -21,35 +16,23 @@ export default function GetCaption({ customer }) {
   useEffect(() => {
     console.log("rendering");
 
-    // functions.httpsCallable('helloWorld')({ keword: 'hi hello world', quote: true }).then((response) => {
-    //     console.log(response)
-    // });
   });
 
   const genCaption = (e) => {
     e.preventDefault();
-
-    console.log("Quote status : " + quoteElement.current.checked);
-    setFetchError(false);
-    setCaption(null);
     if (inputVal !== "") {
       setProcessing(true);
 
-      axios
-        .post("https://openai-fiver.vercel.app/", {
-          keywords: inputVal,
-          quote: quoteElement.current.checked,
-          emoji: emojiElement.current.checked,
-        })
+      functions.httpsCallable('caption')({ keyword: inputVal, quote: true })
         .then((response) => {
+
           let { data } = response;
-          let reg = /#[a-z]+/gi;
-          let derivedTags = data.result.content.match(reg);
-          setTags(derivedTags);
-          setCaption(data.result.content);
+
+          setCaptionArr([...captionArr, data.content]);
+          console.log(captionArr);
+          setInputVal("");
         })
         .catch((error) => {
-          setFetchError(true);
           console.log(error);
         })
         .finally(() => {
@@ -168,7 +151,7 @@ export default function GetCaption({ customer }) {
     // </div>
 
     <>
-      <div className="bg-gray-100 " style={{ minHeight: "90vh" }}>
+      <div className="bg-gray-100 h-2 overflow-hidden" style={{ height: '88vh' }} >
         <div className=" p-4 rounded-lg   max-w-4xl mx-auto ">
           <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full pb-9 px-5  max-w-4xl">
             <div className="flex items-center rounded-lg border bg-white border-gray-400 px-3 py-1">
@@ -176,6 +159,10 @@ export default function GetCaption({ customer }) {
                 type="text"
                 placeholder="Type a prompt"
                 className="w-full focus:outline-none"
+                value={inputVal}
+                onChange={(e) => {
+                  setInputVal(e.target.value);
+                }}
               />
               <button
                 onClick={(e) => {
@@ -201,10 +188,12 @@ export default function GetCaption({ customer }) {
             className=" p-4 rounded-lg text-center flex flex-col min-h-full bg-white"
             style={{ minHeight: "68vh" }}
           >
-            <div
-              className={`mx-auto max-w-3xl text-left ${
-                processing || caption ? "fade-out" : ""
-              }`}
+            {true && <div
+              className={`mx-auto max-w-3xl text-left overflow-y-auto ${captionArr.length > 0 || processing ? "fade-out" : ""
+                }`}
+              style={{
+                height: '50vh'
+              }}
             >
               <div className="bg-white rounded-lg shadow-md p-4 mb-3">
                 <p className="text-gray-700 font-bold mb-2">
@@ -243,7 +232,41 @@ export default function GetCaption({ customer }) {
                   #EscapeReality
                 </p>
               </div>
+            </div>}
+
+            {/*  Output Display */}
+
+            {captionArr.length > 0 && <div
+              className={`mx-auto max-w-3xl text-left overflow-y-auto
+              `}
+              style={{
+                height: '50vh'
+              }}
+            >
+
+
+              {captionArr.map((cap, ind) => {
+
+                if (cap === null || cap === "") {
+                  return <></>
+                }
+                return (
+                  <div className="bg-white rounded-lg shadow-md p-4 mb-3" key={ind}>
+                    <div className="flex items-center justify-between bg-gray-100 rounded-md p-3" >
+                      <p className="text-gray-700">
+                        {cap}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+
+
+
             </div>
+            }
+
+
           </div>
         </div>
       </div>
