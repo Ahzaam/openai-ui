@@ -14,7 +14,7 @@ export default function Home() {
     <>
       {/* dfghjkl;fg */}
       <div className=" py-10 my-20">
-        <div className="container mx-auto px-5">
+        <div className="container mx-auto px-5 relative">
           <h2 className="md:text-7xl text-6xl font-semibold text-gray-800 text-center mb-8">
             Introducing our <span className="text-blue-600">AI Writing </span>
             Tool
@@ -24,6 +24,16 @@ export default function Home() {
             posts quickly and easily. With our tool, you can save time and
             produce high-quality content that engages your audience.
           </p>
+          <div className="text-center absolute md:top-0 -top-32 -z-10">
+            <div className="mx-auto w-fit">
+              <video
+                className=" w-48"
+                src="/assets/ai.mp4"
+                autoPlay
+                loop
+              ></video>
+            </div>
+          </div>
         </div>
       </div>
       <div className="bg-gray-100 md:py-12">
