@@ -6,7 +6,7 @@ export default function Navbar(){
 
     const [user, setUser] = useState(null)
 
-    
+    console.log('kjhgfdfghjkl')
 const navigate = useNavigate()
 
 
