@@ -9,6 +9,7 @@ import { getUser } from "./service/authentication";
 import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
 import { isLoggedIn } from "./service/authentication";
+import Profile from "./pages/profile";
 
 export const UserContext = createContext();
 function App() {
@@ -18,7 +19,7 @@ function App() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in
-        isLoggedIn().then(res => {
+        isLoggedIn().then((res) => {
           setUser(res);
         });
       } else {
@@ -47,6 +48,8 @@ function App() {
         <Routes>
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/profile" element={<Profile />} />
+
           <Route path="/*" element={<Home />} />
         </Routes>
       </Router>

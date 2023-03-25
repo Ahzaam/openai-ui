@@ -45,9 +45,11 @@ export default function Home() {
                 tool can help you generate captions that are engaging and
                 on-brand.
               </p>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
-                Generate Captions
-              </button>
+              <Link to="/caption">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
+                  Generate Captions
+                </button>
+              </Link>
             </div>
             <div className="bg-white p-4 shadow-lg rounded">
               <h3 className="text-lg font-bold mb-2 text-gray-800">
@@ -153,9 +155,11 @@ export default function Home() {
   </div>
 </div> */}
 
-      <footer class="bg-gray-200 py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-          <p class="text-gray-700">© 2023 AI Writing Tool powered by ChatGPT</p>
+      <footer className="bg-gray-200 py-4">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <p className="text-gray-700">
+            © 2023 AI Writing Tool powered by ChatGPT
+          </p>
         </div>
       </footer>
     </>
