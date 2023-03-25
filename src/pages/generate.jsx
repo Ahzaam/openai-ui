@@ -2,6 +2,7 @@ import axios from "axios";
 // import { useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from "react";
 import { handleLogout } from '../service/authentication';
+import { functions } from "../service/firebase";
 
 export default function GetCaption({ customer }) {
 
@@ -21,6 +22,9 @@ export default function GetCaption({ customer }) {
     useEffect(() => {
         console.log("rendering");
 
+        // functions.httpsCallable('helloWorld')({ keword: 'hi hello world', quote: true }).then((response) => {
+        //     console.log(response)
+        // });
 
     });
 
@@ -28,7 +32,7 @@ export default function GetCaption({ customer }) {
 
         e.preventDefault();
         console.log("Quote status : " + quoteElement.current.checked);
-
+        setFetchError(false);
         setCaption(null);
         if (inputVal !== "") {
             setProcessing(true);
@@ -76,8 +80,28 @@ export default function GetCaption({ customer }) {
                     <div className="shadow-lg my-4">
 
                         <div className="px-6 py-4">
-                            <div className="font-bold text-xl mb-2">Caption</div>
-                            <p className="text-gray-700 text-base">
+                            <div className="font-bold text-xl mb-2">
+                                <span>Caption</span>
+                                <button 
+                                onClick={(e)=>{
+                                    navigator.clipboard.writeText(caption);
+                                    e.target.textContent = "Copied!";
+                                    e.target.disabled = true;
+                                }}
+                                className="bg-transparent hover:bg-black hover:text-slate-50 text-xs text-black font-bold py-1 px-2 inline-flex items-center border border-black float-right">
+                                    <svg className="w-3 h-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M5 10H3a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-2h-2v2H3v-6h2v2h2v-2zM17 6h-6a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2v-6a2 2 0 00-2-2z" />
+                                    </svg>
+                                    Copy
+                                </button>
+
+
+                            </div>
+
+
+
+
+                            <p className="text-gray-700 text-base my-2">
                                 {caption}                    </p>
                         </div>
                         <div className="px-6 pt-4 pb-2">
