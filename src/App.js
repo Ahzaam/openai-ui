@@ -9,6 +9,8 @@ import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
 import { isLoggedIn } from "./service/authentication";
 import Profile from "./pages/profile";
+import GenEbook from "./pages/ebook";
+import BlogPost from "./pages/blogpost";
 
 export const UserContext = createContext();
 function App() {
@@ -46,6 +48,8 @@ function App() {
         <Navbar isAuth={user} />
         <Routes>
           <Route path="/caption" element={<GetCaption />} />
+          <Route path="/ebook" element={<GenEbook />} />
+          <Route path="/blogpost" element={<BlogPost />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/profile" element={<Profile isAuth={user} />} />
 
