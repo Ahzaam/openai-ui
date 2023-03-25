@@ -5,11 +5,11 @@ import GetCaption from "./pages/generate";
 import { useState, createContext, useEffect, useContext } from "react";
 import { auth } from "./service/firebase";
 import Home from "./pages/home";
-import PrivateRoute from "./service/privateRoute";
+import { getUser } from './service/authentication';
 import Payment from "./pages/payment";
 export const UserContext = createContext();
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getUser().then((user) => user._delegate));
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -24,22 +24,26 @@ function App() {
     });
   }, [user]);
 
+  if (!user) {
+
+    return (
+      <Router>
+        <Routes>
+          <Route path="/*" element={<Authentication />} />
+        </Routes>
+      </Router>
+
+    )
+  }
+
+
   return (
     <UserContext.Provider value={user}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/authentication" element={<Authentication />} />
+          <Route path="/caption" element={<GetCaption />} />
           <Route path="/payment" element={<Payment />} />
-
-          <Route
-            path="/caption"
-            element={
-              <PrivateRoute>
-                <GetCaption />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/*" element={<Home />} />
         </Routes>
       </Router>
     </UserContext.Provider>

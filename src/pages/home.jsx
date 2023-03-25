@@ -1,23 +1,25 @@
-import {getUser} from '../service/authentication'
+import { getUser } from '../service/authentication'
+import { Link } from "react-router-dom";
 
-
-export default function Home(){
-    // getUser().then((user) => {
-    //     console.log(user._delegate)
-    // })
+export default function Home() {
+  // getUser().then((user) => {
+  //     console.log(user._delegate)
+  // })
   return (
     <>
-    <div className='w-full h-full  flex items-center justify-center'>
-        <div className='grid grid-cols-3 gap-3'>
-            <div className='bg-red-100 '>
-                a
-            </div>
-            <div className='bg-red-100'>a</div>
-            <div className='bg-red-100'>s</div>
-        </div>
+      <ul>
+        <li>
+          <Link to={"caption"} > Caption </Link>
 
-    </div>
+        </li>
+        <li>
+          <Link to={"payment"} > Upgrade To Pro </Link>
+        </li>
+        <li>
+          <Link to={"ebook"} > Ebook </Link>
+        </li>
+      </ul>
     </>
-  )  
+  )
 }
 
