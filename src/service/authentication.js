@@ -34,6 +34,22 @@ const getUser = () => {
     resolve(auth.currentUser);
   });
 };
+const isLoggedIn = () => {
+  return new Promise((resolve, reject) => {
+    if (user) {
+      resolve(user);
+    } else {
+      if (auth.currentUser) {
+        getUserData(auth.currentUser.uid).then((user_data) => {
+          user = user_data;
+          resolve(user);
+        });
+      } else {
+        resolve(null);
+      }
+    }
+  });
+};
 
 const handleLogout = () => {
   auth
@@ -45,4 +61,4 @@ const handleLogout = () => {
       console.error(error);
     });
 };
-export { signInWithPopUp, getUserData as getUser, handleLogout };
+export { signInWithPopUp, getUserData as getUser, handleLogout, isLoggedIn };
