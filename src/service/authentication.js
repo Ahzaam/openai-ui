@@ -37,6 +37,7 @@ const getUser = () => {
 const isLoggedIn = () => {
   return new Promise((resolve, reject) => {
     if (user) {
+      console.log(user);
       resolve(user);
     } else {
       if (auth.currentUser) {

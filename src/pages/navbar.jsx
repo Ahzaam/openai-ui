@@ -12,11 +12,15 @@ const navigate = useNavigate()
 
 
 useEffect(() => {
+    console.log('use effet')
     isLoggedIn().then(res => {
         setUser(res)
-        console.log(res)
+        
     })
 }, [])
+
+
+
     console.log(user)
     
     return(
