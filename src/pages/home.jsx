@@ -1,10 +1,17 @@
 import { getUser } from "../service/authentication";
 import { Link } from "react-router-dom";
+import { functions } from "../service/firebase";
 
 export default function Home() {
   // getUser().then((user) => {
   //     console.log(user._delegate)
   // })
+
+  functions
+    .httpsCallable("helloWorld")({ keword: "hi hello world", quote: true })
+    .then((response) => {
+      console.log(response);
+    });
   return (
     <>
       {/* dfghjkl;fg */}
@@ -24,7 +31,7 @@ export default function Home() {
         <div className="container mx-auto py-10 px-7 ">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white p-4 shadow-lg rounded">
-              <h3 className="text-lg font-bold mb-2 text-gray-800">
+              <h3 className="text-2xl font-bold mb-2 text-gray-800">
                 Ebook Writing
               </h3>
               <p className="text-gray-700">
@@ -37,7 +44,7 @@ export default function Home() {
               </button>
             </div>
             <div className="bg-white p-4 shadow-lg rounded">
-              <h3 className="text-lg font-bold mb-2 text-gray-800">
+              <h3 className="text-2xl font-bold mb-2 text-gray-800">
                 Caption Generator
               </h3>
               <p className="text-gray-700">
@@ -52,7 +59,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="bg-white p-4 shadow-lg rounded">
-              <h3 className="text-lg font-bold mb-2 text-gray-800">
+              <h3 className="text-2xl font-bold mb-2 text-gray-800">
                 Blog Post Generator
               </h3>
               <p className="text-gray-700">
@@ -82,9 +89,11 @@ export default function Home() {
               access to additional features and tools.
             </p>
             <div className="flex justify-center">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
-                Subscribe Now
-              </button>
+              <Link to="/payment">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+                  Subscribe Now
+                </button>
+              </Link>
             </div>
           </div>
 
