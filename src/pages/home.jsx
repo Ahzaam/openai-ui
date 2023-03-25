@@ -1,6 +1,4 @@
-import { getUser } from "../service/authentication";
 import { Link } from "react-router-dom";
-import { functions } from "../service/firebase";
 
 export default function Home() {
   // getUser().then((user) => {

@@ -1,11 +1,6 @@
 import axios from "axios";
-
-import {
-    UserContext
-} from '../App';
-import { auth } from '../service/firebase';
-import { useNavigate } from 'react-router-dom';
-import { useState, useContex, useRef, useEffect } from "react";
+// import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from "react";
 import { handleLogout } from '../service/authentication';
 
 export default function GetCaption({ customer }) {
@@ -21,7 +16,7 @@ export default function GetCaption({ customer }) {
     //     const user = useContext(UserContext);
 
     //    console.log(user);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         console.log("rendering");

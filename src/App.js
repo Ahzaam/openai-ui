@@ -1,8 +1,7 @@
-import Authentication from "./pages/authentication";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import GetCaption from "./pages/generate";
-import { useState, createContext, useEffect, useContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { auth } from "./service/firebase";
 import Home from "./pages/home";
 import { getUser } from "./service/authentication";
@@ -16,10 +15,10 @@ function App() {
   const [user, setUser] = useState(getUser().then((user) => user));
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(async (user) => {
       if (user) {
         // User is signed in
-        isLoggedIn().then((res) => {
+        await isLoggedIn().then((res) => {
           setUser(res);
         });
       } else {
