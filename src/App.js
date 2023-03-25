@@ -8,15 +8,19 @@ import Home from "./pages/home";
 import { getUser } from "./service/authentication";
 import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
+import { isLoggedIn } from "./service/authentication";
+
 export const UserContext = createContext();
 function App() {
-  const [user, setUser] = useState(getUser().then((user) => user._delegate));
+  const [user, setUser] = useState(getUser().then((user) => user));
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in
-        setUser(user);
+        isLoggedIn().then(res => {
+          setUser(res);
+        });
       } else {
         // User is signed out
         console.log("User is not signed in");
@@ -27,10 +31,9 @@ function App() {
 
   if (!user) {
     return (
-      <Router>
-        <Navbar />
+      <Router forceRefresh={true}>
+        <Navbar isAuth={user} />
         <Routes>
-          <Route path="/authentication" element={<Authentication />} />
           <Route path="/*" element={<Home />} />
         </Routes>
       </Router>
@@ -39,8 +42,8 @@ function App() {
 
   return (
     <UserContext.Provider value={user}>
-      <Router>
-        <Navbar />
+      <Router forceRefresh={true}>
+        <Navbar isAuth={user} />
         <Routes>
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/payment" element={<Payment />} />
