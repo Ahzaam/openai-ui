@@ -5,7 +5,7 @@ const provider = new firebase.auth.GoogleAuthProvider();
 let user;
 const signInWithPopUp = () => {
   auth.signInWithPopup(provider).then((response) => {
-    console.log(response.user.uid);
+   // console.log(response.user.uid);
     if (response.additionalUserInfo.isNewUser) {
       user = {
         uid: response.user.uid,
@@ -37,7 +37,7 @@ const getUser = () => {
 const isLoggedIn = () => {
   return new Promise((resolve, reject) => {
     if (user) {
-      console.log(user);
+      // console.log(user);
       resolve(user);
     } else {
       if (auth.currentUser) {
