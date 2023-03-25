@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { isLoggedIn } from "../service/authentication"
 import { useNavigate } from "react-router-dom"
 
@@ -11,10 +11,13 @@ const navigate = useNavigate()
 
 
 
-isLoggedIn().then(res => {
-    setUser(res)
-})
-    
+useEffect(() => {
+    isLoggedIn().then(res => {
+        setUser(res)
+        console.log(res)
+    })
+}, [])
+    console.log(user)
     
     return(
         <>
