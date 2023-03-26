@@ -49,7 +49,7 @@ export default function Home() {
                 the rest.
               </p>
               <Link to="/ebook">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded-md">
+                <button className="bg-blue-600 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 mt-4 rounded-md">
                   Start Writing
                 </button>
               </Link>
@@ -64,7 +64,7 @@ export default function Home() {
                 on-brand.
               </p>
               <Link to="/caption">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded-md">
+                <button className="bg-blue-600 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 mt-4 rounded-md">
                   Generate Captions
                 </button>
               </Link>
@@ -79,7 +79,7 @@ export default function Home() {
                 keywords and our tool will take care of the rest.
               </p>
               <Link to="/blogpost">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded-md">
+                <button className="bg-blue-600 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 mt-4 rounded-md">
                   Generate Blog Post
                 </button>
               </Link>
