@@ -22,7 +22,7 @@ exports.generateEbookChapter = async (title) => {
     return new Promise(async (resolve, reject) => {
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            max_tokens: 2048,
+            max_tokens: 500,
             messages: [{ role: "user", content: generateChapterPrompt(title) }],
         });
 
@@ -31,7 +31,7 @@ exports.generateEbookChapter = async (title) => {
 };
 
 function generateChapterPrompt(title) {
-    let prompt = `write a chapter for "${title}"`;
+    let prompt = `write a chapter for the title "${title}"`;
     // console.log(prompt);
     return prompt;
 }
