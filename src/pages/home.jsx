@@ -110,9 +110,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h2 className="text-5xl mb-12 font-bold mb-8">
-            What Our Users Are Saying
-          </h2>
+          <h2 className="text-5xl font-bold mb-8">What Our Users Are Saying</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-8 shadow rounded">
               <p className="text-gray-700">
