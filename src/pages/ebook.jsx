@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { SendSVG, LoadingSVG, CopySVG } from "../components/SVG";
 import { functions } from "../service/firebase";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, Container } from "@mui/material";
 
 import "../css/caption.css";
 
@@ -24,8 +24,14 @@ export default function GenEbook({ customer }) {
 
   return (
     <>
+
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+
+        <Box sx={{
+          borderBottom: 1, borderColor: "divider", marginX: {
+            md: '4.5rem'
+          }
+        }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -171,39 +177,76 @@ function GenerateOutline({ outline, setOutline }) {
           </div>
         )}
         <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${
-            processing || outline.length > 0 ? "fade-out" : ""
-          }`}
+          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${processing || outline.length > 0 ? "fade-out" : ""
+            }`}
           style={{ minHeight: "68vh" }}
         >
           <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
           <div
-            className={`mx-auto max-w-3xl text-left ${
-              processing || outline.length > 0 ? "fade-out" : "fade-in"
-            }`}
+            className={`mx-auto max-w-3xl text-left ${processing || outline.length > 0 ? "fade-out" : "fade-in"
+              }`}
+
+            style={{ width: '80%' }}
           >
-            <div className="bg-white rounded-lg shadow-md p-4 mb-3">
+            <div className="bg-white rounded-lg shadow-md p-4 mb-3 ">
               <p className="text-gray-700 font-bold mb-2">
-                "Are you struggling to manage your finances? Our ebook offers
-                expert advice and strategies for achieving financial freedom"
+                I. Introduction
               </p>
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
-                <p className="text-gray-700">
-                  "Take control of your finances and achieve financial freedom
-                  with our comprehensive ebook! Our expert authors share their
-                  top tips and strategies for managing your money, building
-                  wealth, and achieving your financial goals. Whether you're
-                  dealing with debt, trying to save for retirement, or just
-                  looking to improve your overall financial health, our ebook is
-                  the ultimate resource for financial success." These are just a
-                  few examples, but there are countless prompts and captions
-                  that could be used to promote an ebook on a website. The key
-                  is to identify the target audience and their pain points, and
-                  then craft a message that speaks directly to their needs and
-                  desires.
-                </p>
+
+                <ul>
+                  <li>
+                    <p className="text-gray-700 bg-fuchsia-300">
+                      A. Importance of writing an ebook
+                    </p>
+                  </li>
+                  <li>
+                    <p className="text-gray-700">
+                      B. Benefits of creating an ebook
+                    </p>
+                  </li>
+                </ul>
+
+
+
+
               </div>
             </div>
+
+            <div className="bg-white rounded-lg shadow-md p-4 mb-3">
+              <p className="text-gray-700 font-bold mb-2">
+                II. Choosing an Ebook Topic
+              </p>
+              <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
+
+                <ul>
+                  <li>
+                    <p className="text-gray-700">
+                      A. Identifying your niche
+                    </p>
+                  </li>
+                  <li>
+                    <p className="text-gray-700">
+                      B. Researching the market demand
+                    </p>
+                  </li>
+
+                  <li>
+                    <p className="text-gray-700">
+                      C. Brainstorming unique topics
+                    </p>
+                  </li>
+                  <li>
+                    <p className="text-gray-700">
+                      D. Selecting a topic that aligns with your expertise
+                    </p>
+                  </li>
+                </ul>
+
+
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -262,7 +305,7 @@ function GenerateChapter({ chapters, setChapters }) {
           <div className="flex items-center rounded-lg border bg-white border-gray-400 px-3 py-1">
             <input
               type="text"
-              placeholder="Type A Topic To Generate Outline"
+              placeholder="Paste the chapter name copied from outline"
               className="w-full focus:outline-none"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
@@ -333,36 +376,22 @@ function GenerateChapter({ chapters, setChapters }) {
           </div>
         )}
         <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${
-            processing || chapters.length > 0 ? "fade-out" : ""
-          }`}
+          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${processing || chapters.length > 0 ? "fade-out" : ""
+            }`}
           style={{ minHeight: "68vh" }}
         >
           <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
           <div
-            className={`mx-auto max-w-3xl text-left ${
-              processing || chapters.length > 0 ? "fade-out" : "fade-in"
-            }`}
+            className={`mx-auto max-w-3xl text-left ${processing || chapters.length > 0 ? "fade-out" : "fade-in"
+              }`}
           >
             <div className="bg-white rounded-lg shadow-md p-4 mb-3">
               <p className="text-gray-700 font-bold mb-2">
-                "Are you struggling to manage your finances? Our ebook offers
-                expert advice and strategies for achieving financial freedom"
+                Importance of writing an ebook
               </p>
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
                 <p className="text-gray-700">
-                  "Take control of your finances and achieve financial freedom
-                  with our comprehensive ebook! Our expert authors share their
-                  top tips and strategies for managing your money, building
-                  wealth, and achieving your financial goals. Whether you're
-                  dealing with debt, trying to save for retirement, or just
-                  looking to improve your overall financial health, our ebook is
-                  the ultimate resource for financial success." These are just a
-                  few examples, but there are countless prompts and captions
-                  that could be used to promote an ebook on a website. The key
-                  is to identify the target audience and their pain points, and
-                  then craft a message that speaks directly to their needs and
-                  desires.
+                  Introduction In today's digital era, writing an Ebook is an important way of sharing knowledge, expressing ideas and gaining popularity in the online community. The rise in technology and the proliferation of gadgets have made ebooks an accessible and convenient way of distributing information. Writing an Ebook has become an important tool for businesses, entrepreneurs, authors and anyone else who wants to build a strong online presence. In this chapter, we will discuss the importance of writing an Ebook and why it is necessary for success in the digital age.
                 </p>
               </div>
             </div>
@@ -385,8 +414,7 @@ function Help() {
           <p className="text-gray-700 font-bold mb-2">Step 1</p>
           <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
             <p className="text-gray-700">
-              Navigate to "Wirte Outline" Tab and Generate Outline of the ebook
-              you wish to generate by providing the Title of the ebook.
+              To generate an outline for your desired ebook, go to the "Write Outline" tab and input the ebook's title.
             </p>
           </div>
         </div>
@@ -396,10 +424,7 @@ function Help() {
           <p className="text-gray-700 font-bold mb-2">Step 2</p>
           <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
             <p className="text-gray-700">
-              Copy The title of a chapter appeared in the screen. Navigate to
-              "Write Chapter" Tab and paste the title in the input and Generate
-              the chapter. Repeat this step for all the chapters appeared in the
-              outline.
+              After copying the chapter title displayed on the screen, go to the "Write Chapter" tab, paste the title into the input, and generate the chapter. Repeat this process for all chapters listed in the outline.
             </p>
           </div>
         </div>
@@ -410,9 +435,7 @@ function Help() {
           <p className="text-gray-700 font-bold mb-2">Important!</p>
           <div className="flex items-center justify-between bg-[#fef08a] rounded-md p-3">
             <p className="text-gray-700">
-              After generating a chapter please copy the text and save on your
-              device. We do not keep track of your progress. Refreshing the page
-              or Navigating to another page would result in losing your work.
+              Once a chapter has been generated, please save the text on your device. We do not retain records of your progress, so refreshing the page or navigating away from it may cause your work to be lost.
             </p>
           </div>
         </div>
