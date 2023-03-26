@@ -4,15 +4,17 @@
 }
 @keyframes fade-in {
   0% {
+    margin-top: 100px;
     opacity: 0;
   }
   100% {
     opacity: 1;
+    margin-top: 0;
   }
 }
 
 .fade-out {
-  animation: fade-out 900ms;
+  animation: fade-out 1000ms;
   display: none;
 }
 

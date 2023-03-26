@@ -95,7 +95,7 @@ export default function GenEbook({ customer }) {
           >
             <div
               className={`mx-auto max-w-3xl text-left ${
-                processing || caption ? "fade-out" : ""
+                caption ? "fade-out" : "fade-in"
               }`}
             >
               <div className="bg-white rounded-lg shadow-md p-4 mb-3">

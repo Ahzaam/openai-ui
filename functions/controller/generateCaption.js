@@ -1,12 +1,4 @@
-var { Configuration } = require("openai");
-var { OpenAIApi } = require("openai");
-const functions = require("firebase-functions");
-require("dotenv").config();
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const openai = require("./openaiconfig");
 
 exports.generateCaption = async (keyword, quote = false) => {
   return new Promise(async (resolve, reject) => {
