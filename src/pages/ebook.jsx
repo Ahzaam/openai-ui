@@ -24,7 +24,7 @@ export default function GenEbook({ customer }) {
 
   return (
     <>
-      <div className="bg-gray-100">
+      <div className="bg-gray-100" style={{ minHeight: "90vh" }}>
         <div className="container mx-auto ">
           <Box>
             <Box
@@ -185,7 +185,7 @@ function GenerateOutline({ outline, setOutline }) {
           }`}
           style={{ minHeight: "68vh" }}
         >
-          <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
+          <h2 className="font-bold mb-2 text-2xl ">AI Ebook Outline</h2>
           <div
             className={`mx-auto max-w-3xl text-left ${
               processing || outline.length > 0 ? "fade-out" : ""
@@ -197,12 +197,12 @@ function GenerateOutline({ outline, setOutline }) {
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
                 <ul>
                   <li>
-                    <p className="text-gray-700 bg-fuchsia-300">
+                    <p className="text-gray-700 bg-blue-300 px-3 rounded-lg">
                       A. Importance of writing an ebook
                     </p>
                   </li>
                   <li>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 px-3">
                       B. Benefits of creating an ebook
                     </p>
                   </li>
@@ -366,35 +366,37 @@ function GenerateChapter({ chapters, setChapters }) {
               })}
           </div>
         )}
-        <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full overflow-auto bg-white ${
-            processing || chapters.length > 0 ? "fade-out" : ""
-          }`}
-          style={{ minHeight: "68vh", maxHeight: "80vh" }}
-        >
-          <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
+        <div className="p-4">
           <div
-            className={`mx-auto max-w-3xl text-left ${
-              chapters.length > 0 ? "fade-out" : "fade-in"
+            className={`p-4 rounded-lg text-center flex flex-col min-h-full overflow-auto bg-white ${
+              processing || chapters.length > 0 ? "fade-out" : ""
             }`}
+            style={{ minHeight: "68vh", maxHeight: "80vh" }}
           >
-            <div className="bg-white rounded-lg shadow-md p-4 mb-3">
-              <p className="text-gray-700 font-bold mb-2">
-                Importance of writing an ebook
-              </p>
-              <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
-                <p className="text-gray-700">
-                  Introduction In today's digital era, writing an Ebook is an
-                  important way of sharing knowledge, expressing ideas and
-                  gaining popularity in the online community. The rise in
-                  technology and the proliferation of gadgets have made ebooks
-                  an accessible and convenient way of distributing information.
-                  Writing an Ebook has become an important tool for businesses,
-                  entrepreneurs, authors and anyone else who wants to build a
-                  strong online presence. In this chapter, we will discuss the
-                  importance of writing an Ebook and why it is necessary for
-                  success in the digital age.
+            <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
+            <div
+              className={`mx-auto max-w-3xl text-left ${
+                chapters.length > 0 ? "fade-out" : "fade-in"
+              }`}
+            >
+              <div className="bg-white rounded-lg shadow-md p-4 mb-3">
+                <p className="text-gray-700 font-bold mb-2">
+                  Importance of writing an ebook
                 </p>
+                <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
+                  <p className="text-gray-700">
+                    Introduction In today's digital era, writing an Ebook is an
+                    important way of sharing knowledge, expressing ideas and
+                    gaining popularity in the online community. The rise in
+                    technology and the proliferation of gadgets have made ebooks
+                    an accessible and convenient way of distributing
+                    information. Writing an Ebook has become an important tool
+                    for businesses, entrepreneurs, authors and anyone else who
+                    wants to build a strong online presence. In this chapter, we
+                    will discuss the importance of writing an Ebook and why it
+                    is necessary for success in the digital age.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -407,8 +409,8 @@ function GenerateChapter({ chapters, setChapters }) {
 function Help() {
   return (
     <div
-      className={`p-4 rounded-lg text-center flex  max-w-3xl mx-auto flex-col min-h-full overflow-hidden bg-white `}
-      style={{ minHeight: "80vh", maxHeight: "80vh" }}
+      className={`p-4 rounded-lg text-center flex  max-w-4xl mx-auto flex-col min-h-full overflow-hidden bg-white `}
+      style={{ minHeight: "68vh", maxHeight: "68vh" }}
     >
       <h2 className="font-bold mb-2 text-2xl">How To Generate An Ebook</h2>
       <div className={`mx-auto max-w-3xl text-left fade-in`}>
