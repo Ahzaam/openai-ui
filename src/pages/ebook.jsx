@@ -24,34 +24,37 @@ export default function GenEbook({ customer }) {
 
   return (
     <>
-
-      <Box sx={{ width: "100%" }}>
-
-        <Box sx={{
-          borderBottom: 1, borderColor: "divider", marginX: {
-            md: '4.5rem'
-          }
-        }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Write Outline" {...a11yProps(0)} />
-            <Tab label="Write Chapter" {...a11yProps(1)} />
-            <Tab label="Help" {...a11yProps(2)} />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <GenerateOutline outline={outline} setOutline={setOutline} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <GenerateChapter chapters={chapters} setChapters={setChapters} />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <Help />
-        </TabPanel>
-      </Box>
+      <div className="bg-gray-100">
+        <div className="container mx-auto ">
+          <Box>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: "divider",
+              }}
+            >
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Write Outline" {...a11yProps(0)} />
+                <Tab label="Write Chapter" {...a11yProps(1)} />
+                <Tab label="Help" {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <GenerateOutline outline={outline} setOutline={setOutline} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <GenerateChapter chapters={chapters} setChapters={setChapters} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <Help />
+            </TabPanel>
+          </Box>
+        </div>
+      </div>
     </>
   );
 }
@@ -177,23 +180,21 @@ function GenerateOutline({ outline, setOutline }) {
           </div>
         )}
         <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${processing || outline.length > 0 ? "fade-out" : ""
-            }`}
+          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${
+            processing || outline.length > 0 ? "fade-out" : ""
+          }`}
           style={{ minHeight: "68vh" }}
         >
           <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
           <div
-            className={`mx-auto max-w-3xl text-left ${processing || outline.length > 0 ? "fade-out" : "fade-in"
-              }`}
-
-            style={{ width: '80%' }}
+            className={`mx-auto max-w-3xl text-left ${
+              processing || outline.length > 0 ? "fade-out" : ""
+            }`}
+            style={{ width: "80%" }}
           >
-            <div className="bg-white rounded-lg shadow-md p-4 mb-3 ">
-              <p className="text-gray-700 font-bold mb-2">
-                I. Introduction
-              </p>
+            <div className="bg-white rounded-lg shadow-md p-4 mb-3 fade-in">
+              <p className="text-gray-700 font-bold mb-2">I. Introduction</p>
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
-
                 <ul>
                   <li>
                     <p className="text-gray-700 bg-fuchsia-300">
@@ -206,24 +207,17 @@ function GenerateOutline({ outline, setOutline }) {
                     </p>
                   </li>
                 </ul>
-
-
-
-
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-4 mb-3">
+            <div className="bg-white rounded-lg shadow-md p-4 mb-3 fade-in">
               <p className="text-gray-700 font-bold mb-2">
                 II. Choosing an Ebook Topic
               </p>
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
-
                 <ul>
                   <li>
-                    <p className="text-gray-700">
-                      A. Identifying your niche
-                    </p>
+                    <p className="text-gray-700">A. Identifying your niche</p>
                   </li>
                   <li>
                     <p className="text-gray-700">
@@ -242,11 +236,8 @@ function GenerateOutline({ outline, setOutline }) {
                     </p>
                   </li>
                 </ul>
-
-
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -376,14 +367,16 @@ function GenerateChapter({ chapters, setChapters }) {
           </div>
         )}
         <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${processing || chapters.length > 0 ? "fade-out" : ""
-            }`}
-          style={{ minHeight: "68vh" }}
+          className={`p-4 rounded-lg text-center flex flex-col min-h-full overflow-auto bg-white ${
+            processing || chapters.length > 0 ? "fade-out" : ""
+          }`}
+          style={{ minHeight: "68vh", maxHeight: "80vh" }}
         >
           <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
           <div
-            className={`mx-auto max-w-3xl text-left ${processing || chapters.length > 0 ? "fade-out" : "fade-in"
-              }`}
+            className={`mx-auto max-w-3xl text-left ${
+              chapters.length > 0 ? "fade-out" : "fade-in"
+            }`}
           >
             <div className="bg-white rounded-lg shadow-md p-4 mb-3">
               <p className="text-gray-700 font-bold mb-2">
@@ -391,7 +384,16 @@ function GenerateChapter({ chapters, setChapters }) {
               </p>
               <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
                 <p className="text-gray-700">
-                  Introduction In today's digital era, writing an Ebook is an important way of sharing knowledge, expressing ideas and gaining popularity in the online community. The rise in technology and the proliferation of gadgets have made ebooks an accessible and convenient way of distributing information. Writing an Ebook has become an important tool for businesses, entrepreneurs, authors and anyone else who wants to build a strong online presence. In this chapter, we will discuss the importance of writing an Ebook and why it is necessary for success in the digital age.
+                  Introduction In today's digital era, writing an Ebook is an
+                  important way of sharing knowledge, expressing ideas and
+                  gaining popularity in the online community. The rise in
+                  technology and the proliferation of gadgets have made ebooks
+                  an accessible and convenient way of distributing information.
+                  Writing an Ebook has become an important tool for businesses,
+                  entrepreneurs, authors and anyone else who wants to build a
+                  strong online presence. In this chapter, we will discuss the
+                  importance of writing an Ebook and why it is necessary for
+                  success in the digital age.
                 </p>
               </div>
             </div>
@@ -405,37 +407,44 @@ function GenerateChapter({ chapters, setChapters }) {
 function Help() {
   return (
     <div
-      className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${"fade-in"}`}
-      style={{ minHeight: "68vh" }}
+      className={`p-4 rounded-lg text-center flex  max-w-3xl mx-auto flex-col min-h-full overflow-hidden bg-white `}
+      style={{ minHeight: "80vh", maxHeight: "80vh" }}
     >
       <h2 className="font-bold mb-2 text-2xl">How To Generate An Ebook</h2>
-      <div className={`mx-auto max-w-3xl text-left `}>
+      <div className={`mx-auto max-w-3xl text-left fade-in`}>
         <div className="bg-white rounded-lg shadow-md p-4 mb-3">
           <p className="text-gray-700 font-bold mb-2">Step 1</p>
           <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
             <p className="text-gray-700">
-              To generate an outline for your desired ebook, go to the "Write Outline" tab and input the ebook's title.
+              To generate an outline for your desired ebook, go to the "Write
+              Outline" tab and input the ebook's title.
             </p>
           </div>
         </div>
       </div>
-      <div className={`mx-auto max-w-3xl text-left `}>
+      <div className={`mx-auto max-w-3xl text-left fade-in`}>
         <div className="bg-white rounded-lg shadow-md p-4 mb-3">
           <p className="text-gray-700 font-bold mb-2">Step 2</p>
           <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
             <p className="text-gray-700">
-              After copying the chapter title displayed on the screen, go to the "Write Chapter" tab, paste the title into the input, and generate the chapter. Repeat this process for all chapters listed in the outline.
+              After copying the chapter title displayed on the screen, go to the
+              "Write Chapter" tab, paste the title into the input, and generate
+              the chapter. Repeat this process for all chapters listed in the
+              outline.
             </p>
           </div>
         </div>
       </div>
 
-      <div className={`mx-auto max-w-3xl text-left `}>
+      <div className={`mx-auto max-w-3xl text-left fade-in`}>
         <div className="bg-white rounded-lg shadow-md p-4 mb-3">
           <p className="text-gray-700 font-bold mb-2">Important!</p>
           <div className="flex items-center justify-between bg-[#fef08a] rounded-md p-3">
             <p className="text-gray-700">
-              Once a chapter has been generated, please save the text on your device. We do not retain records of your progress, so refreshing the page or navigating away from it may cause your work to be lost.
+              Once a chapter has been generated, please save the text on your
+              device. We do not retain records of your progress, so refreshing
+              the page or navigating away from it may cause your work to be
+              lost.
             </p>
           </div>
         </div>
