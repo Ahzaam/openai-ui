@@ -1,9 +1,9 @@
-import axios from "axios";
+// import axios from "axios";
 import { signInWithPopUp } from "../service/authentication";
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-import { functions } from "../service/firebase";
+// import { functions } from "../service/firebase";
 export default function Authentication() {
 
 
@@ -18,12 +18,10 @@ export default function Authentication() {
     //     console.log(error.response);
     // })
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const google_auth = async () => {
         signInWithPopUp();
-        
 
-        navigate("/caption");
     }
 
 
@@ -31,13 +29,15 @@ export default function Authentication() {
     return (
         <>
 
-            <div className="flex items-center justify-center" style={{height:'80vh'}}>
-            <button
-                onClick={google_auth}
-                type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200  hover:bg-blue-800">
-                Google Login
-            </button>
+            <div className="bg-white p-10 rounded shadow-md flex flex-col justify-center items-center h-screen">
+                <h1 className="text-3xl font-bold mb-6">Login To Continue</h1>
+
+                <button onClick={google_auth} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Sign In with Google
+                </button>
+
             </div>
+
 
         </>
     )

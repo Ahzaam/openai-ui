@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import { getSubscriptionData } from "../service/database";
 import { functions } from "../service/firebase";
 export default function Profile({ isAuth }) {
-  let id = "";
+
   const [user, setUser] = useState(isAuth);
   const [subid, serSubid] = useState("");
   const [subscription, setSubscription] = useState(null);
@@ -41,7 +42,7 @@ export default function Profile({ isAuth }) {
           <div className="md:w-1/3 flex items-center justify-center">
             <div>
               <img
-                src="https://via.placeholder.com/150"
+                src={user?.profile || "https://via.placeholder.com/150"}
                 alt="Google Profile Picture"
                 className="rounded-full mb-4"
               />

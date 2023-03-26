@@ -1,9 +1,10 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import GetCaption from "./pages/generate";
+import GetCaption from "./pages/caption";
 import { useState, createContext, useEffect } from "react";
 import { auth } from "./service/firebase";
 import Home from "./pages/home";
+import Authenticate from './pages/authentication';
 import { getUser } from "./service/authentication";
 import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
@@ -36,7 +37,8 @@ function App() {
       <Router forceRefresh={true}>
         <Navbar isAuth={user} />
         <Routes>
-          <Route path="/*" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/*" element={<Authenticate />} />
         </Routes>
       </Router>
     );
