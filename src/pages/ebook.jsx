@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { SendSVG, LoadingSVG, CopySVG } from "../components/SVG";
 import { functions } from "../service/firebase";
-import { Box, Tab, Tabs, Container } from "@mui/material";
+import { Box, Tab, Tabs, Alert, Snackbar } from "@mui/material";
 
 import "../css/caption.css";
 
@@ -105,6 +105,7 @@ function GenerateOutline({ outline, setOutline }) {
           let { data } = response;
 
           let str = data.content;
+          // console.log(str.replaceAll("\n", "<br />"));
           let reg = /[\r\n]+/g;
 
           setInputVal("");
@@ -112,6 +113,7 @@ function GenerateOutline({ outline, setOutline }) {
         })
         .catch((error) => {
           console.log(error);
+          setFetchError(true);
         })
         .finally(() => {
           setProcessing(false);
@@ -121,8 +123,24 @@ function GenerateOutline({ outline, setOutline }) {
     }
   };
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setFetchError(false);
+  };
+
   return (
     <div className="bg-gray-100 " style={{ minHeight: "80vh" }}>
+
+      <Snackbar open={fetchError} autoHideDuration={5000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} severity="error" sx={{ width: '100%' }}>
+          Failed To Generate!
+        </Alert>
+      </Snackbar>
+
+
       <div className="p-4 rounded-lg max-w-4xl mx-auto ">
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full pb-9 px-5  max-w-4xl">
           <div className="flex items-center rounded-lg border bg-white border-gray-400 px-3 py-1">
@@ -144,6 +162,8 @@ function GenerateOutline({ outline, setOutline }) {
             </button>
           </div>
         </div>
+
+
         {outline.length > 0 && (
           <div
             className={
@@ -156,6 +176,7 @@ function GenerateOutline({ outline, setOutline }) {
             {outline.length > 0 &&
               outline.map((el, ind) => {
                 let reg = /^[ABCDEFGH-]{1}\.{0,1}/;
+                let reg2 = /^[123456789-]{1}\.{0,1}/;
 
                 if (reg.test(el.trim())) {
                   return (
@@ -167,7 +188,16 @@ function GenerateOutline({ outline, setOutline }) {
                     </p>
                   );
                 }
-
+                if (reg2.test(el.trim())) {
+                  return (
+                    <p
+                      className="text-gray-700 mb-4 text-justify pl-12"
+                      key={"outline-" + ind}
+                    >
+                      {el}
+                    </p>
+                  );
+                }
                 return (
                   <p
                     className="text-gray-700 mb-4 text-justify underline font-semibold pl-4"
@@ -180,16 +210,14 @@ function GenerateOutline({ outline, setOutline }) {
           </div>
         )}
         <div
-          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${
-            processing || outline.length > 0 ? "fade-out" : ""
-          }`}
+          className={`p-4 rounded-lg text-center flex flex-col min-h-full bg-white ${processing || outline.length > 0 ? "fade-out" : ""
+            }`}
           style={{ minHeight: "68vh" }}
         >
           <h2 className="font-bold mb-2 text-2xl ">AI Ebook Outline</h2>
           <div
-            className={`mx-auto max-w-3xl text-left ${
-              processing || outline.length > 0 ? "fade-out" : ""
-            }`}
+            className={`mx-auto max-w-3xl text-left ${processing || outline.length > 0 ? "fade-out" : ""
+              }`}
             style={{ width: "80%" }}
           >
             <div className="bg-white rounded-lg shadow-md p-4 mb-3 fade-in">
@@ -245,6 +273,8 @@ function GenerateOutline({ outline, setOutline }) {
   );
 }
 
+// END OF Generate Outline Component ------------------------------------------------------------------------------------
+
 function GenerateChapter({ chapters, setChapters }) {
   const [processing, setProcessing] = useState(false);
   const [inputVal, setInputVal] = useState("");
@@ -280,6 +310,7 @@ function GenerateChapter({ chapters, setChapters }) {
         })
         .catch((error) => {
           console.log(error);
+          setFetchError(true);
         })
         .finally(() => {
           setProcessing(false);
@@ -289,8 +320,24 @@ function GenerateChapter({ chapters, setChapters }) {
     }
   };
 
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setFetchError(false);
+  };
+
   return (
     <div className="bg-gray-100 " style={{ minHeight: "80vh" }}>
+
+      <Snackbar open={fetchError} autoHideDuration={5000} onClose={handleCloseSnack}>
+        <Alert onClose={handleCloseSnack} severity="error" sx={{ width: '100%' }}>
+          Failed To Generate!
+        </Alert>
+      </Snackbar>
+
       <div className="p-4 rounded-lg max-w-4xl mx-auto ">
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full pb-9 px-5  max-w-4xl">
           <div className="flex items-center rounded-lg border bg-white border-gray-400 px-3 py-1">
@@ -368,16 +415,14 @@ function GenerateChapter({ chapters, setChapters }) {
         )}
         <div className="p-4">
           <div
-            className={`p-4 rounded-lg text-center flex flex-col min-h-full overflow-auto bg-white ${
-              processing || chapters.length > 0 ? "fade-out" : ""
-            }`}
+            className={`p-4 rounded-lg text-center flex flex-col min-h-full overflow-auto bg-white ${processing || chapters.length > 0 ? "fade-out" : ""
+              }`}
             style={{ minHeight: "68vh", maxHeight: "80vh" }}
           >
             <h2 className="font-bold mb-2 text-2xl">AI Ebook Outline</h2>
             <div
-              className={`mx-auto max-w-3xl text-left ${
-                chapters.length > 0 ? "fade-out" : "fade-in"
-              }`}
+              className={`mx-auto max-w-3xl text-left ${chapters.length > 0 ? "fade-out" : "fade-in"
+                }`}
             >
               <div className="bg-white rounded-lg shadow-md p-4 mb-3">
                 <p className="text-gray-700 font-bold mb-2">
