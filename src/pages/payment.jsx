@@ -71,7 +71,7 @@ function Pricing({ user, userIsPremium, userData }) {
           </p>
         </div>
         <div className=" px-6 py-4 mb-3">
-          <span className="text-3xl">10$</span>
+          <span className="text-3xl">20$</span>
           <button
             onClick={handleCheckout}
             className="bg-blue-500 float-right hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"

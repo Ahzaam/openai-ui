@@ -98,7 +98,7 @@ export default function Home() {
               Subscription Plan
             </h3>
             <p className="text-lg text-gray-700 mb-4">
-              Subscribe to our premium plan for just $10 per month and get
+              Subscribe to our premium plan for just $20 per month and get
               access to additional features and tools.
             </p>
             <div className="flex justify-center">

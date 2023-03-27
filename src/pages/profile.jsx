@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { useEffect, useState } from "react";
-import { getSubscriptionData } from "../service/database";
+import { getSubscriptionData, getActivationData } from "../service/database";
 import { functions } from "../service/firebase";
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ export default function Profile({ isAuth }) {
   const [processing, setProcessing] = useState(true);
   const [user, setUser] = useState(isAuth);
   const [subid, serSubid] = useState("");
+  const [resume, setResume] = useState(false);
+  const [endAt, setEndAt] = useState(null);
   const [subscription, setSubscription] = useState(null);
   useEffect(() => {
     // isLoggedIn().then(res => {
@@ -19,10 +21,27 @@ export default function Profile({ isAuth }) {
     setUser(isAuth);
 
     getSubscriptionData(isAuth.uid).then((data) => {
-      
-      serSubid(data.id[0]);
-      setSubscription(data.data[0]);
-      setProcessing(false);
+
+      if (data.id.length === 1) {
+        console.log("kaham2")
+        serSubid(data.id[0]);
+        setSubscription(data.data[0]);
+        setProcessing(false);
+      }
+      else {
+
+        getActivationData(isAuth.uid).then((data) => {
+
+          console.log(data[0]?.status);
+          if (data[0]?.status) {
+            setResume(true)
+            setEndAt(data[0]?.current_period_end.seconds);
+
+          }
+          setProcessing(false);
+        })
+      }
+
     });
 
     // console.log(user);
@@ -106,18 +125,22 @@ export default function Profile({ isAuth }) {
                 <Card sx={{ maxWidth: 400 }}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      Don't miss out on our tools - subscribe now!
+                      {resume ? "Your subscription is set to expire on " + new Date(endAt * 1000).toDateString() : "Don't miss out on our tools - subscribe now!"}
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
                       We offer a variety of tools to help you achieve your goals.
                       Subscribe today to unlock access!
                     </Typography>
-                    <Link to="/payment">
-                    <Button variant="contained" sx={{ mt: 2 }}>
-                      Subscribe Now
-                    </Button>
-                    </Link>
-                 
+
+                    {resume ? <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Active</span> :
+                      <Link to="/payment">
+                        <Button variant="contained" sx={{ mt: 2 }}>
+                          Subscribe Now
+                        </Button>
+                      </Link>
+                    }
+
+
                   </CardContent>
                 </Card>
               </Box>
