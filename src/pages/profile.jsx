@@ -19,7 +19,7 @@ export default function Profile({ isAuth }) {
     setUser(isAuth);
 
     getSubscriptionData(isAuth.uid).then((data) => {
-      // console.log(data);
+      
       serSubid(data.id[0]);
       setSubscription(data.data[0]);
       setProcessing(false);
