@@ -36,7 +36,7 @@ function Pricing({ user, userIsPremium, userData }) {
   const handleCheckout = () => {
 
     if (!userIsPremium) {
-      console.log(userData.uid)
+      // console.log(userData.uid)
       createCheckoutSessions(userData.uid);
     }
   };

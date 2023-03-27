@@ -24,7 +24,7 @@ exports.generateEbookChapter = async (title, user) => {
     return new Promise(async (resolve, reject) => {
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
-            max_tokens: 500,
+            max_tokens: 2048,
             messages: [{ role: "user", content: generateChapterPrompt(title) }],
             user,
             temperature: 0.8
