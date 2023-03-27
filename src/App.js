@@ -13,16 +13,18 @@ import Profile from "./pages/profile";
 import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
+import usePremiumStatus from "./service/stripe/usePremiumStatus";
 
 export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(getUser().then((user) => user));
-  const [premium, setPremium] = useState(false);
+  // const [premium, setPremium] = useState(false);
+  const premium = usePremiumStatus(user);
 
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
-      setPremium(false);
+      // setPremium(false);
       if (user) {
         // User is signed in
         await isLoggedIn().then((res) => {
@@ -33,7 +35,7 @@ function App() {
         getSubscriptionData(user.uid).then((data) => {
 
           if (data.data[0]?.status === "active") {
-            setPremium(true);
+            // setPremium(true);
           }
 
         });
@@ -65,7 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile isAuth={user} />} />
-          <Route path="/*" element={<Payment userIsPremium={premium} />} />
+          <Route path="/*" element={<Payment userIsPremium={premium} userData={user} />} />
         </Routes>
       </Router>
     );
@@ -79,7 +81,7 @@ function App() {
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/ebook" element={<GenEbook />} />
           <Route path="/blogpost" element={<BlogPost />} />
-          <Route path="/payment" element={<Payment userIsPremium={premium} />} />
+          <Route path="/payment" element={<Payment userIsPremium={premium} userData={user} />} />
           <Route path="/profile" element={<Profile isAuth={user} />} />
 
           <Route path="/*" element={<Home />} />

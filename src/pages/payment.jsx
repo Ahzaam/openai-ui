@@ -6,7 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Authentication from "./authentication";
 import { createCheckoutSessions } from "../service/stripe/createCheckoutSession";
 import { Link } from "react-router-dom";
-export default function Payment({ userIsPremium }) {
+export default function Payment({ userIsPremium, userData }) {
 
   const [user, userLoading] = useAuthState(auth);
   // const userIsPremium = usePremiumStatus(user);
@@ -21,7 +21,7 @@ export default function Payment({ userIsPremium }) {
           style={{ minHeight: "80vh" }}
         >
           {!userIsPremium ? (
-            <Pricing user={(user, userIsPremium)} userIsPremium={userIsPremium} />
+            <Pricing user={(user, userIsPremium)} userIsPremium={userIsPremium} userData={userData} />
           ) : (
             <AlreadySaved />
           )}
@@ -31,13 +31,13 @@ export default function Payment({ userIsPremium }) {
   );
 }
 
-function Pricing({ user, userIsPremium }) {
+function Pricing({ user, userIsPremium, userData }) {
   // const userIsPremium = usePremiumStatus(user);
   const handleCheckout = () => {
 
     if (!userIsPremium) {
-
-      createCheckoutSessions(user.uid);
+      console.log(userData.uid)
+      createCheckoutSessions(userData.uid);
     }
   };
 
