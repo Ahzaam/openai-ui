@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import video from "./assets/ai.mp4";
 
 export default function Home() {
   // getUser().then((user) => {
@@ -28,10 +29,13 @@ export default function Home() {
             <div className="mx-auto w-fit">
               <video
                 className=" w-48"
-                src="/assets/ai.mp4"
+                src={video}
+                type="video/mp4"
+                onCanPlayThrough={(e) => e.target.play()}
                 autoPlay
                 loop
               ></video>
+  
             </div>
           </div>
         </div>
