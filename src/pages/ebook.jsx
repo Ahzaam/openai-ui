@@ -1,8 +1,9 @@
 // import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { SendSVG, LoadingSVG, CopySVG } from "../components/SVG";
 import { functions } from "../service/firebase";
 import { Box, Tab, Tabs, Alert, Snackbar } from "@mui/material";
+import { UserContext } from '../App';
 
 import "../css/caption.css";
 
@@ -76,6 +77,8 @@ function TabPanel(props) {
 }
 
 function GenerateOutline({ outline, setOutline }) {
+
+  const user = useContext(UserContext);
   const [processing, setProcessing] = useState(false);
   const [inputVal, setInputVal] = useState("");
   const [fetchError, setFetchError] = useState(false);
@@ -98,9 +101,9 @@ function GenerateOutline({ outline, setOutline }) {
 
     if (inputVal !== "") {
       setProcessing(true);
-
+      console.log(user?.uid);
       functions
-        .httpsCallable("ebookOutline")({ keyword: inputVal })
+        .httpsCallable("ebookOutline")({ keyword: inputVal, user: user?.uid })
         .then((response) => {
           let { data } = response;
 
@@ -279,7 +282,7 @@ function GenerateChapter({ chapters, setChapters }) {
   const [processing, setProcessing] = useState(false);
   const [inputVal, setInputVal] = useState("");
   const [fetchError, setFetchError] = useState(false);
-
+  const user = useContext(UserContext);
   //     const user = useContext(UserContext);
 
   //    console.log(user);
@@ -298,9 +301,9 @@ function GenerateChapter({ chapters, setChapters }) {
 
     if (inputVal !== "") {
       setProcessing(true);
-
+     
       functions
-        .httpsCallable("ebookChapter")({ keyword: inputVal })
+        .httpsCallable("ebookChapter")({ keyword: inputVal, user: user?.uid })
         .then((response) => {
           let { data } = response;
 

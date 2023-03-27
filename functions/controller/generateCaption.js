@@ -1,11 +1,13 @@
 const openai = require("./openaiconfig");
 
-exports.generateCaption = async (keyword, quote = false) => {
+exports.generateCaption = async (keyword, user, quote = false) => {
   return new Promise(async (resolve, reject) => {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       max_tokens: 2048,
       messages: [{ role: "user", content: generatePrompt(keyword, quote) }],
+      temperature: 0.8,
+      user
     });
 
     resolve(completion.data.choices[0].message);

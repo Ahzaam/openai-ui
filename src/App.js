@@ -12,10 +12,12 @@ import { isLoggedIn } from "./service/authentication";
 import Profile from "./pages/profile";
 import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
+import { getSubscriptionData } from "./service/database";
 
 export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(getUser().then((user) => user));
+  const [premium, setPremium] = useState(false);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -24,6 +26,15 @@ function App() {
         await isLoggedIn().then((res) => {
           setUser(res);
         });
+        getSubscriptionData(user.uid).then((data) => {
+
+          if (data.data[0]?.status === "active") {
+            setPremium(true);
+          }
+
+        });
+
+
       } else {
         // User is signed out
         console.log("User is not signed in");
@@ -39,6 +50,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/*" element={<Authenticate />} />
+        </Routes>
+      </Router>
+    );
+  }
+  if (user && !premium) {
+    return (
+      <Router forceRefresh={true}>
+        <Navbar isAuth={user} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile isAuth={user} />} />
+          <Route path="/*" element={<Payment />} />
         </Routes>
       </Router>
     );

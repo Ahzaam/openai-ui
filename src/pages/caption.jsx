@@ -1,8 +1,9 @@
 // import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { functions } from "../service/firebase";
 import { SendSVG, CopySVG, LoadingSVG } from "../components/SVG";
-
+import { Alert, Snackbar } from "@mui/material";
+import { UserContext } from '../App';
 import "../css/caption.css";
 
 
@@ -10,32 +11,32 @@ export default function GetCaption({ customer }) {
   const [processing, setProcessing] = useState(false);
   const [captionArr, setCaptionArr] = useState([]);
   const [inputVal, setInputVal] = useState("");
+  const [fetchError, setFetchError] = useState(false);
 
+  const user = useContext(UserContext);
   //     const user = useContext(UserContext);
 
   //    console.log(user);
   // const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("rendering");
-  });
 
   const genCaption = (e) => {
     e.preventDefault();
     if (inputVal !== "") {
       setProcessing(true);
-
+      
       functions
-        .httpsCallable("caption")({ keyword: inputVal, quote: true })
+        .httpsCallable("caption")({ keyword: inputVal, user: user?.uid, quote: true })
         .then((response) => {
           let { data } = response;
 
           setCaptionArr([...captionArr, data.content]);
-          console.log(captionArr);
+         
           setInputVal("");
         })
         .catch((error) => {
           console.log(error);
+          setFetchError(true);
         })
         .finally(() => {
           setProcessing(false);
@@ -44,13 +45,26 @@ export default function GetCaption({ customer }) {
       alert("Please Type Something before submitting!");
     }
   };
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
 
+    setFetchError(false);
+  };
   return (
     <>
       <div
         className="bg-gray-100 h-2 overflow-hidden"
         style={{ height: "90vh" }}
       >
+
+        <Snackbar open={fetchError} autoHideDuration={5000} onClose={handleCloseSnack}>
+          <Alert onClose={handleCloseSnack} severity="error" sx={{ width: '100%' }}>
+            Failed To Generate!
+          </Alert>
+        </Snackbar>
+
         <div className=" p-4 rounded-lg   max-w-4xl mx-auto ">
           <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full pb-9 px-5  max-w-4xl">
             <div className="flex items-center rounded-lg border bg-white border-gray-400 pl-3 pr-1  py-1">

@@ -57,11 +57,11 @@ function Pricing({ user }) {
             ></path>
           </svg>
         </div>
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">
+        <div className="px-6 py-4">
+          <div className="font-bold text-xl mb-2">
             {user.displayName} Subscribe Now!
           </div>
-          <p class="text-gray-700 text-base">
+          <p className="text-gray-700 text-base">
             Our AI Writing Tool helps you create ebooks, captions, and blog
             posts quickly and easily. With our tool, you can save time and
             produce high-quality content that engages your audience.
@@ -83,35 +83,35 @@ function Pricing({ user }) {
 
 function AlreadySaved() {
   return (
-    <div class="bg-green-500 rounded-lg p-6 m-4">
-      <div class="flex items-center">
-        <div class="rounded-full bg-green-700 p-3">
+    <div className="bg-green-500 rounded-lg p-6 m-4">
+      <div className="flex items-center">
+        <div className="rounded-full bg-green-700 p-3">
           <svg
-            class="h-6 w-6 text-white"
+            className="h-6 w-6 text-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M5 13l4 4L19 7"
             ></path>
           </svg>
         </div>
-        <div class="ml-4">
-          <h4 class="text-lg font-bold text-white">
+        <div className="ml-4">
+          <h4 className="text-lg font-bold text-white">
             You're Already Subscribed
           </h4>
-          <p class="mt-2 text-white">
+          <p className="mt-2 text-white">
             Thank you for being a subscriber. You can manage your subscription
             at any time.
           </p>
           <Link to="/profile">
-            <a class="inline-block bg-white text-green-500 hover:text-green-700 font-bold rounded-lg px-4 py-2 mt-4 transition duration-300">
+            <span className="inline-block bg-white text-green-500 hover:text-green-700 font-bold rounded-lg px-4 py-2 mt-4 transition duration-300">
               Manage Subscription
-            </a>
+            </span>
           </Link>
         </div>
       </div>
