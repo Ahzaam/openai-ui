@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { getSubscriptionData } from "../service/database";
 import { functions } from "../service/firebase";
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
-
+import { Link } from "react-router-dom";
 
 export default function Profile({ isAuth }) {
 
+  const [processing, setProcessing] = useState(true);
   const [user, setUser] = useState(isAuth);
   const [subid, serSubid] = useState("");
   const [subscription, setSubscription] = useState(null);
@@ -21,6 +22,7 @@ export default function Profile({ isAuth }) {
       // console.log(data);
       serSubid(data.id[0]);
       setSubscription(data.data[0]);
+      setProcessing(false);
     });
 
     // console.log(user);
@@ -52,7 +54,10 @@ export default function Profile({ isAuth }) {
               <p className="text-gray-700">{user.email}</p>
             </div>
           </div>
-          <div className="md:w-2/3 md:pl-8">
+          <div className={"md:w-2/3 md:pl-8 "}
+            style={{
+              display: processing ? 'none' : 'block'
+            }}>
             {subscription ? (
               <div className="max-w-lg mx-auto bg-white shadow-md rounded-md overflow-hidden">
                 <div className="bg-gray-100 py-4 px-6">
@@ -97,22 +102,25 @@ export default function Profile({ isAuth }) {
                 </ul>
               </div>
             ) : (
-              <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop:'20px' }}>
-              <Card sx={{ maxWidth: 400 }}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                  Don't miss out on our tools - subscribe now!
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    We offer a variety of tools to help you achieve your goals.
-                    Subscribe today to unlock access!
-                  </Typography>
-                  <Button variant="contained" href="/subscribe" sx={{ mt: 2 }}>
-                    Subscribe Now
-                  </Button>
-                </CardContent>
-              </Card>
-            </Box>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: '20px' }}>
+                <Card sx={{ maxWidth: 400 }}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Don't miss out on our tools - subscribe now!
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      We offer a variety of tools to help you achieve your goals.
+                      Subscribe today to unlock access!
+                    </Typography>
+                    <Link to="/payment">
+                    <Button variant="contained" sx={{ mt: 2 }}>
+                      Subscribe Now
+                    </Button>
+                    </Link>
+                 
+                  </CardContent>
+                </Card>
+              </Box>
             )}
           </div>
         </div>

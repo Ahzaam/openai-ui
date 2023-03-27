@@ -65,7 +65,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile isAuth={user} />} />
-          <Route path="/*" element={<Payment />} />
+          <Route path="/*" element={<Payment userIsPremium={premium} />} />
         </Routes>
       </Router>
     );
@@ -79,7 +79,7 @@ function App() {
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/ebook" element={<GenEbook />} />
           <Route path="/blogpost" element={<BlogPost />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment" element={<Payment userIsPremium={premium} />} />
           <Route path="/profile" element={<Profile isAuth={user} />} />
 
           <Route path="/*" element={<Home />} />

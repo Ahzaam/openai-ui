@@ -2,14 +2,14 @@ import React from "react";
 
 import { auth } from "../service/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import usePremiumStatus from "../service/stripe/usePremiumStatus";
+// import usePremiumStatus from "../service/stripe/usePremiumStatus";
 import Authentication from "./authentication";
 import { createCheckoutSessions } from "../service/stripe/createCheckoutSession";
 import { Link } from "react-router-dom";
-export default function Payment() {
-  
+export default function Payment({ userIsPremium }) {
+
   const [user, userLoading] = useAuthState(auth);
-  const userIsPremium = usePremiumStatus(user);
+  // const userIsPremium = usePremiumStatus(user);
 
   return (
     <div>
@@ -21,7 +21,7 @@ export default function Payment() {
           style={{ minHeight: "80vh" }}
         >
           {!userIsPremium ? (
-            <Pricing user={(user, userIsPremium)} />
+            <Pricing user={(user, userIsPremium)} userIsPremium={userIsPremium} />
           ) : (
             <AlreadySaved />
           )}
@@ -31,12 +31,12 @@ export default function Payment() {
   );
 }
 
-function Pricing({ user }) {
-  const userIsPremium = usePremiumStatus(user);
+function Pricing({ user, userIsPremium }) {
+  // const userIsPremium = usePremiumStatus(user);
   const handleCheckout = () => {
-   
+
     if (!userIsPremium) {
-      
+
       createCheckoutSessions(user.uid);
     }
   };
