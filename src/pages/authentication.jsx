@@ -4,7 +4,7 @@ import { signInWithPopUp } from "../service/authentication";
 // import { useNavigate } from 'react-router-dom';
 
 // import { functions } from "../service/firebase";
-export default function Authentication( {handleLoginChange}) {
+export default function Authentication( ) {
 
 
     // functions.httpsCallable('helloWorld')({ keword: 'hi hello world', quote: true }).then((response) => {
@@ -21,7 +21,7 @@ export default function Authentication( {handleLoginChange}) {
     // const navigate = useNavigate();
     const google_auth = async () => {
         signInWithPopUp();
-        handleLoginChange();
+       
     }
 
 

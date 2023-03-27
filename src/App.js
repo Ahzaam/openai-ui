@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import GetCaption from "./pages/caption";
 import { useState, createContext, useEffect } from "react";
-import { auth } from "./service/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Home from "./pages/home";
 import Authenticate from './pages/authentication';
 import { getUser } from "./service/authentication";
@@ -20,12 +20,16 @@ function App() {
   const [premium, setPremium] = useState(false);
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      setPremium(false);
       if (user) {
         // User is signed in
         await isLoggedIn().then((res) => {
-          setUser(res);
+
+          setUser(user);
         });
+
         getSubscriptionData(user.uid).then((data) => {
 
           if (data.data[0]?.status === "active") {
@@ -37,7 +41,7 @@ function App() {
 
       } else {
         // User is signed out
-        console.log("User is not signed in");
+        // console.log("User is not signed in");
         setUser(null);
       }
     });

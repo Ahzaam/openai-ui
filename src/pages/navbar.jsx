@@ -61,7 +61,7 @@ export default function Navbar({ isAuth }) {
           <div className="flex items-center md:order-2">
             {user ? (
               <Profile
-                profilePic={user?.profile}
+                profilePic={user?.photoURL}
                 logoutAccount={logoutAccount}
               />
             ) : (

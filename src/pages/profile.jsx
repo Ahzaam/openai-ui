@@ -42,7 +42,7 @@ export default function Profile({ isAuth }) {
           <div className="md:w-1/3 flex items-center justify-center">
             <div>
               <img
-                src={user?.profile || "https://via.placeholder.com/150"}
+                src={user?.photoURL || "https://via.placeholder.com/150"}
                 alt="Google Profile Picture"
                 className="rounded-full mb-4"
               />
