@@ -36,3 +36,16 @@ export async function getSubscriptionData(uid) {
       });
   });
 }
+export async function getActivationData(uid) {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection("users")
+      .doc(uid)
+      .collection("subscriptions")
+      .where("status", "==", null)
+      .get()
+      .then((response) => {
+        resolve(response.docs.map((doc) => doc.data()));
+      });
+  });
+}
