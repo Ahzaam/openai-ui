@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { useEffect, useState } from "react";
-import firebase from "firebase/compat/app";
 import { getSubscriptionData } from "../service/database";
 import { functions } from "../service/firebase";
+import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+
+
 export default function Profile({ isAuth }) {
 
   const [user, setUser] = useState(isAuth);
@@ -16,7 +18,7 @@ export default function Profile({ isAuth }) {
     setUser(isAuth);
 
     getSubscriptionData(isAuth.uid).then((data) => {
-      console.log(data);
+      // console.log(data);
       serSubid(data.id[0]);
       setSubscription(data.data[0]);
     });
@@ -95,7 +97,22 @@ export default function Profile({ isAuth }) {
                 </ul>
               </div>
             ) : (
-              ""
+              <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop:'20px' }}>
+              <Card sx={{ maxWidth: 400 }}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                  Don't miss out on our tools - subscribe now!
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    We offer a variety of tools to help you achieve your goals.
+                    Subscribe today to unlock access!
+                  </Typography>
+                  <Button variant="contained" href="/subscribe" sx={{ mt: 2 }}>
+                    Subscribe Now
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
             )}
           </div>
         </div>
