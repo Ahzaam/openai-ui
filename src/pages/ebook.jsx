@@ -101,7 +101,7 @@ function GenerateOutline({ outline, setOutline }) {
 
     if (inputVal !== "") {
       setProcessing(true);
-      console.log(user?.uid);
+      // console.log(user?.uid);
       functions
         .httpsCallable("ebookOutline")({ keyword: inputVal, user: user?.uid })
         .then((response) => {
