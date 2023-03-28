@@ -4,7 +4,7 @@ import GetCaption from "./pages/caption";
 import { useState, createContext, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Home from "./pages/home";
-import Authenticate from './pages/authentication';
+import Authenticate from "./pages/authentication";
 import { getUser } from "./service/authentication";
 import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
@@ -14,7 +14,7 @@ import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
 import usePremiumStatus from "./service/stripe/usePremiumStatus";
-
+import Paypal from "./pages/paypa";
 export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(getUser().then((user) => user));
@@ -28,19 +28,14 @@ function App() {
       if (user) {
         // User is signed in
         await isLoggedIn().then((res) => {
-
           setUser(user);
         });
 
         getSubscriptionData(user.uid).then((data) => {
-
           if (data.data[0]?.status === "active") {
             // setPremium(true);
           }
-
         });
-
-
       } else {
         // User is signed out
         // console.log("User is not signed in");
@@ -49,46 +44,53 @@ function App() {
     });
   }, [user]);
 
-  if (!user) {
-    return (
-      <Router forceRefresh={true}>
-        <Navbar isAuth={user} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/*" element={<Authenticate />} />
-        </Routes>
-      </Router>
-    );
-  }
-  if (user && !premium) {
-    return (
-      <Router forceRefresh={true}>
-        <Navbar isAuth={user} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
-          <Route path="/*" element={<Payment userIsPremium={premium} userData={user} />} />
-        </Routes>
-      </Router>
-    );
-  }
+  return <Paypal />;
+  // if (!user) {
+  //   return (
+  //     <Router forceRefresh={true}>
+  //       <Navbar isAuth={user} />
+  //       <Routes>
+  //         <Route path="/" element={<Home />} />
+  //         <Route path="/*" element={<Authenticate />} />
+  //       </Routes>
+  //     </Router>
+  //   );
+  // }
+  // if (user && !premium) {
+  //   return (
+  //     <Router forceRefresh={true}>
+  //       <Navbar isAuth={user} />
+  //       <Routes>
+  //         <Route path="/" element={<Home />} />
+  //         <Route path="/profile" element={<Profile isAuth={user} />} />
+  //         <Route
+  //           path="/*"
+  //           element={<Payment userIsPremium={premium} userData={user} />}
+  //         />
+  //       </Routes>
+  //     </Router>
+  //   );
+  // }
 
-  return (
-    <UserContext.Provider value={user}>
-      <Router forceRefresh={true}>
-        <Navbar isAuth={user} />
-        <Routes>
-          <Route path="/caption" element={<GetCaption />} />
-          <Route path="/ebook" element={<GenEbook />} />
-          <Route path="/blogpost" element={<BlogPost />} />
-          <Route path="/payment" element={<Payment userIsPremium={premium} userData={user} />} />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
+  // return (
+  //   <UserContext.Provider value={user}>
+  //     <Router forceRefresh={true}>
+  //       <Navbar isAuth={user} />
+  //       <Routes>
+  //         <Route path="/caption" element={<GetCaption />} />
+  //         <Route path="/ebook" element={<GenEbook />} />
+  //         <Route path="/blogpost" element={<BlogPost />} />
+  //         <Route
+  //           path="/payment"
+  //           element={<Payment userIsPremium={premium} userData={user} />}
+  //         />
+  //         <Route path="/profile" element={<Profile isAuth={user} />} />
 
-          <Route path="/*" element={<Home />} />
-        </Routes>
-      </Router>
-    </UserContext.Provider>
-  );
+  //         <Route path="/*" element={<Home />} />
+  //       </Routes>
+  //     </Router>
+  //   </UserContext.Provider>
+  // );
 }
 
 export default App;
