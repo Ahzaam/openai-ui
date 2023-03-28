@@ -14,7 +14,8 @@ import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
 import usePremiumStatus from "./service/stripe/usePremiumStatus";
-import Paypal from "./pages/paypa";
+import Paypal from "./pages/paypal";
+
 export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(getUser().then((user) => user));
