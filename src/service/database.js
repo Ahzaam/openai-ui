@@ -50,11 +50,12 @@ export async function getActivationData(uid) {
   });
 }
 export async function subscribeUserPaypal(uid, payments_details) {
+  console.log(uid, payments_details);
   return firestore
     .collection("users")
     .doc(uid)
     .collection("subscriptions")
-    .a(payments_details);
+    .add(payments_details);
 }
 export async function getSubscribedUserPaypal(uid) {
   return new Promise((resolve, reject) => {
