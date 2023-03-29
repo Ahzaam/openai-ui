@@ -3,9 +3,8 @@ import { useState, useContext } from "react";
 import { functions } from "../service/firebase";
 import { SendSVG, CopySVG, LoadingSVG } from "../components/SVG";
 import { Alert, Snackbar } from "@mui/material";
-import { UserContext } from '../App';
+import { UserContext } from "../App";
 import "../css/caption.css";
-
 
 export default function GetCaption({ customer }) {
   const [processing, setProcessing] = useState(false);
@@ -19,19 +18,22 @@ export default function GetCaption({ customer }) {
   //    console.log(user);
   // const navigate = useNavigate();
 
-
   const genCaption = (e) => {
     e.preventDefault();
     if (inputVal !== "") {
       setProcessing(true);
-      
+
       functions
-        .httpsCallable("caption")({ keyword: inputVal, user: user?.uid, quote: true })
+        .httpsCallable("caption")({
+          keyword: inputVal,
+          user: user?.uid,
+          quote: true,
+        })
         .then((response) => {
           let { data } = response;
 
           setCaptionArr([...captionArr, data.content]);
-         
+
           setInputVal("");
         })
         .catch((error) => {
@@ -46,7 +48,7 @@ export default function GetCaption({ customer }) {
     }
   };
   const handleCloseSnack = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -58,9 +60,16 @@ export default function GetCaption({ customer }) {
         className="bg-gray-100 h-2 overflow-hidden"
         style={{ height: "90vh" }}
       >
-
-        <Snackbar open={fetchError} autoHideDuration={5000} onClose={handleCloseSnack}>
-          <Alert onClose={handleCloseSnack} severity="error" sx={{ width: '100%' }}>
+        <Snackbar
+          open={fetchError}
+          autoHideDuration={5000}
+          onClose={handleCloseSnack}
+        >
+          <Alert
+            onClose={handleCloseSnack}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
             Failed To Generate!
           </Alert>
         </Snackbar>
@@ -91,9 +100,6 @@ export default function GetCaption({ customer }) {
             </div>
           </div>
           <div className=" p-4 rounded-lg text-center my-4 flex flex-col min-h-full bg-white">
-            <h2 className="font-bold mb-2 text-2xl">
-              AI Social Media Caption Writing
-            </h2>
             <p className="text-gray-700 mb-4">
               Our website's AI feature can help you write captivating and
               effective captions for your social media posts. Say goodbye to
@@ -106,8 +112,9 @@ export default function GetCaption({ customer }) {
           >
             {true && (
               <div
-                className={`mx-auto max-w-3xl text-left overflow-hidden ${captionArr.length > 0 ? "fade-out" : "fade-in"
-                  }`}
+                className={`mx-auto max-w-3xl text-left overflow-hidden ${
+                  captionArr.length > 0 ? "fade-out" : "fade-in"
+                }`}
                 style={{
                   height: "50vh",
                 }}
@@ -173,23 +180,36 @@ export default function GetCaption({ customer }) {
                       key={ind}
                     >
                       <div className="flex items-center justify-between bg-gray-100 rounded-md p-3">
-                        <p id={"captionID-" + ind} className="text-gray-700" aria-label="copy-text" >{cap}</p>
-
+                        <p
+                          id={"captionID-" + ind}
+                          className="text-gray-700"
+                          aria-label="copy-text"
+                        >
+                          {cap}
+                        </p>
                       </div>
                       {/* COPY BUTTON */}
-                      <div className="text-right mt-2" onClick={(e) => {
-
-                        var text = document.querySelector("#captionID-" + ind).textContent;
-                        navigator.clipboard.writeText(text);
-                        document.querySelector("#copybtn-" + ind).textContent = "Copied!";
-                        setTimeout(() => {
-                          document.querySelector("#copybtn-" + ind).textContent = "Copy";
-                        }, 2000);
-
-                      }
-                      }>
+                      <div
+                        className="text-right mt-2"
+                        onClick={(e) => {
+                          var text = document.querySelector(
+                            "#captionID-" + ind
+                          ).textContent;
+                          navigator.clipboard.writeText(text);
+                          document.querySelector(
+                            "#copybtn-" + ind
+                          ).textContent = "Copied!";
+                          setTimeout(() => {
+                            document.querySelector(
+                              "#copybtn-" + ind
+                            ).textContent = "Copy";
+                          }, 2000);
+                        }}
+                      >
                         <div className="ml-auto w-fit flex bg-gray-100 py-1 px-3 rounded-lg cursor-pointer">
-                          <div id={"copybtn-" + ind} className="pb-2 mx-2">Copy</div>{" "}
+                          <div id={"copybtn-" + ind} className="pb-2 mx-2">
+                            Copy
+                          </div>{" "}
                           <div className=" mt-1  ">
                             <CopySVG />
                           </div>
@@ -208,7 +228,3 @@ export default function GetCaption({ customer }) {
     </>
   );
 }
-
-
-
-
