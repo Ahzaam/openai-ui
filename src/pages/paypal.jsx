@@ -9,7 +9,7 @@ import { initialOptions, planDetails } from "../Config/config";
 import { subscribeUserPaypal } from "../service/database";
 
 
-const ButtonWrapper = ({ type, user, updateUser }) => {
+const ButtonWrapper = ({ type, user, updateUser, setLoading }) => {
   const [{ options }, dispatch] = usePayPalScriptReducer();
 
   useEffect(() => {
@@ -39,7 +39,8 @@ const ButtonWrapper = ({ type, user, updateUser }) => {
         return actions.subscription.get().then(function (details) {
           subscribeUserPaypal(user.uid, details);
           // Your code here after capture the order
-          console.log(details);
+          // console.log(details);
+          setLoading(true);
           updateUser();
         });
       }}
@@ -58,10 +59,10 @@ const ButtonWrapper = ({ type, user, updateUser }) => {
   );
 };
 
-export default function Paypal({user, updateUser}) {
+export default function Paypal({user, updateUser, setLoading}) {
   return (
     <PayPalScriptProvider options={initialOptions} deferLoading={true}>
-      <ButtonWrapper type="subscription" user={user} updateUser={updateUser}/>
+      <ButtonWrapper type="subscription" user={user} updateUser={updateUser} setLoading={setLoading}/>
     </PayPalScriptProvider>
   );
 }

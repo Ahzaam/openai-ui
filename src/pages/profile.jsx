@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 // import { getSubscriptionData, getActivationData } from "../service/database";
 // import { functions } from "../service/firebase";
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import { Card, CardContent, Typography, Button, Box, Stack, Skeleton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { api_auth } from "../Config/config";
 
@@ -13,29 +13,33 @@ export default function Profile({ isAuth, userIsPremium, updateUser }) {
 
   const [processing, setProcessing] = useState(true);
   const [user, setUser] = useState(isAuth);
-  const [cancelling, setCancelleing ] =  useState(false);
+  const [cancelling, setCancelleing] = useState(false);
   const [isActive, setActive] = useState(false);
   const [resume, setResume] = useState(false);
   const [endAt, setEndAt] = useState(null);
   const [subscription, setSubscription] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // isLoggedIn().then(res => {
     //   setUser(res);
     // })
-
+    console.log(!userIsPremium)
     setUser(isAuth);
 
-    setResume(userIsPremium?.eligibe);
+    setResume(userIsPremium?.eligible);
 
     const billing_info = userIsPremium?.billing_info;
+
+    setLoading(!userIsPremium);
+
     setSubscription(billing_info);
-   
+
     let date = new Date(billing_info?.last_payment.time);
     date.setDate(date.getDate() + 30);
     setEndAt(date);
- 
-    setActive(userIsPremium?.eligibe);
+
+    setActive(userIsPremium?.eligible);
 
     // if (userIsPremium?.status === "CANCELLED" || userIsPremium?.status === "SUSPENDED") {
 
@@ -86,10 +90,10 @@ export default function Profile({ isAuth, userIsPremium, updateUser }) {
         "Authorization": api_auth.auth,
 
       },
-      body: JSON.stringify({"reason":"Not good enough"}),
+      body: JSON.stringify({ "reason": "Not good enough" }),
     })
       .then((response) => {
-        if(response.status === 204) {
+        if (response.status === 204) {
 
           updateUser();
         }
@@ -99,6 +103,33 @@ export default function Profile({ isAuth, userIsPremium, updateUser }) {
         setCancelleing(false);
       });
   };
+
+  if (loading) {
+    return (
+
+      <div className="flex justify-end">
+        <div className="max-w-lg mx-auto bg-white shadow-md rounded-md  overflow-hidden " style={{ width: '40vw' }} >
+
+          <Card>
+            <CardContent>
+              <Stack spacing={1}>
+                {/* For variant="text", adjust the height via font-size */}
+                <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                {/* For other variants, adjust the size with `width` and `height` */}
+
+                <Skeleton variant="rectangular" height={60} />
+                <Skeleton variant="rounded" height={60} />
+              </Stack>
+
+            </CardContent>
+          </Card>
+
+        </div>
+      </div>
+
+
+    )
+  }
 
   return (
     <>
@@ -152,7 +183,8 @@ export default function Profile({ isAuth, userIsPremium, updateUser }) {
                       </span>
                     </div>
                   </li>
-                  {(userIsPremium?.status === "ACTIVE") &&
+
+                  {(userIsPremium?.status === "ACTIVE") ?
                     <>
                       <li className="px-6 py-4">
                         <div className="flex items-center">
@@ -171,15 +203,25 @@ export default function Profile({ isAuth, userIsPremium, updateUser }) {
                           <button
                             disabled={cancelling}
                             onClick={handleCancel}
-                            className={ !cancelling ? "text-white font-bold py-2 px-6 rounded bg-red-500 hover:bg-red-700" : "px-8 py-3 text-white bg-red-300 rounded focus:outline-none"}
+                            className={!cancelling ? "text-white font-bold py-2 px-6 rounded bg-red-500 hover:bg-red-700" : "px-8 py-3 text-white bg-red-300 rounded focus:outline-none"}
                           >
-                            
+
                             Cancel
                           </button>
                         </div>
                       </li>
                     </>
-
+                    :
+                    <li className="px-6 py-4">
+                      <div className="flex items-center">
+                        <span className="text-gray-800 font-bold">
+                          Valid Until
+                        </span>
+                        <span className="ml-auto text-gray-600 font-semibold">
+                          {endAt.toDateString()}
+                        </span>
+                      </div>
+                    </li>
                   }
                 </ul>
               </div>

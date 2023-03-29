@@ -50,7 +50,7 @@ export async function getActivationData(uid) {
   });
 }
 export async function subscribeUserPaypal(uid, payments_details) {
-  console.log(uid, payments_details);
+  // console.log(uid, payments_details);
   return firestore
     .collection("users")
     .doc(uid)

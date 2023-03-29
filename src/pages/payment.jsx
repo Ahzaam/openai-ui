@@ -1,26 +1,56 @@
-import React, {useEffect, useState} from "react";
-
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, Stack, Skeleton } from "@mui/material";
 import { auth } from "../service/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 // import usePremiumStatus from "../service/stripe/usePremiumStatus";
 import Authentication from "./authentication";
-import { createCheckoutSessions } from "../service/stripe/createCheckoutSession";
+// import { createCheckoutSessions } from "../service/paypal/createCheckoutSession";
 import { Link } from "react-router-dom";
 import Paypal from "./paypal";
-export default function Payment({ userIsPremium, userData , updateUser}) {
+export default function Payment({ userIsPremium, userData, updateUser }) {
 
   const [user, userLoading] = useAuthState(auth);
-
+  const [loading, setLoading] = useState(true);
   const [premiumStatus, setPremiumStatus] = useState(false);
 
   useEffect(() => {
     
-    setPremiumStatus(userIsPremium?.status === "ACTIVE");
-   
 
-  }, [userData,userIsPremium]);
+    setPremiumStatus(userIsPremium?.eligible);
+    setLoading(!userIsPremium)
+
+  }, [userData, userIsPremium]);
 
   // const userIsPremium = usePremiumStatus(user);
+
+  if (loading) {
+    return (
+
+      <div className="flex justify-end">
+        <div className="max-w-lg mx-auto bg-white shadow-md rounded-md  overflow-hidden " style={{ width: '40vw' }} >
+
+          <Card>
+            <CardContent>
+              <Stack spacing={1}>
+                {/* For variant="text", adjust the height via font-size */}
+                <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                {/* For other variants, adjust the size with `width` and `height` */}
+
+                <Skeleton variant="rectangular" height={60} />
+                <Skeleton variant="rounded" height={60} />
+              </Stack>
+
+            </CardContent>
+          </Card>
+
+        </div>
+      </div>
+
+
+    )
+  }
+
+
   return (
     <div>
       {!user && userLoading && <h1>Loading....</h1>}
@@ -30,13 +60,14 @@ export default function Payment({ userIsPremium, userData , updateUser}) {
           className="flex items-center justify-center"
           style={{ minHeight: "80vh" }}
         >
-         
+
           {(!userIsPremium || !premiumStatus) ? (
             <Pricing
               user={(user, userIsPremium)}
               userIsPremium={userIsPremium}
               userData={userData}
               updateUser={updateUser}
+              setLoading={setLoading}
             />
           ) : (
             <AlreadySaved />
@@ -47,21 +78,21 @@ export default function Payment({ userIsPremium, userData , updateUser}) {
   );
 }
 
-function Pricing({ user, userIsPremium, userData, updateUser }) {
+function Pricing({ user, userIsPremium, userData, updateUser,setLoading }) {
   // const userIsPremium = usePremiumStatus(user);
-  const handleCheckout = () => {
-    if (!userIsPremium) {
-      // console.log(userData.uid)
-      createCheckoutSessions(userData.uid);
-    }
-  };
+  // const handleCheckout = () => {
+  //   if (!userIsPremium) {
+  //     // console.log(userData.uid)
+  //     createCheckoutSessions(userData.uid);
+  //   }
+  // };
 
   return (
     <div className="w-full text-center">
       <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">
-             Subscribe Now!
+            Subscribe Now!
           </div>
           <p className="text-gray-700 text-base">
             Our AI Writing Tool helps you create ebooks, captions, and blog
@@ -72,8 +103,8 @@ function Pricing({ user, userIsPremium, userData, updateUser }) {
         <span className="text-3xl">20$</span>
 
         <div className=" px-6 py-4 my-5">
-          <Paypal user={userData} updateUser={updateUser}/>
-          </div>
+          <Paypal user={userData} updateUser={updateUser} setLoading={setLoading}/>
+        </div>
       </div>
     </div>
   );

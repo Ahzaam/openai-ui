@@ -13,7 +13,7 @@ import Profile from "./pages/profile";
 import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
-import usePremiumStatus from "./service/stripe/usePremiumStatus";
+import usePremiumStatus from "./service/paypal/usePremiumStatus";
 export const UserContext = createContext();
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
 
 
   const updateUser = () => {
-    console.log("updating user")
+  
     setUser(getUser().then((user) => user));
   }
 
@@ -62,7 +62,7 @@ function App() {
       </Router>
     );
   }
-  if (user && !premium?.eligibe) {
+  if (user && !premium?.eligible) {
     return (
       <Router forceRefresh={true}>
         <Navbar isAuth={user} />
