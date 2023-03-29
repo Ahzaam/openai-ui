@@ -1,23 +1,43 @@
-import firebase from "firebase/compat/app";
+// import firebase from "firebase/compat/app";
 import { getSubscribedUserPaypal } from "../database";
+import { api_auth } from "../../Config/config";
 
-let res;
 export default async function isUserPremium(user) {
-  try {
-    const response = await fetch(
-      `https://api.sandbox.paypal.com/v1/billing/subscriptions/I-4ANL5LTUP06T`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer EKBB7uMyhbyvFb3Ai3Cyq1eBlOkpDbqr-p4XTeVrdlSzpyjQDIjOzMb4HrP0kH4f3y6eT0hr43QNPX55`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-    res = await getSubscribedUserPaypal("123456789123456789");
-    return res.length > 0 ? true : false;
-  } catch {
-    return false;
+  let res = await getSubscribedUserPaypal(user.uid);
+  
+  try { 
+
+    let sub_id = res[0]?.id;
+
+    if(sub_id)
+    {
+      const response = await fetch(
+        `https://api.sandbox.paypal.com/v1/billing/subscriptions/${sub_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": api_auth.auth,         
+           },
+        }
+      );
+      const data = await response.json();
+  
+      let eligibe = false;
+
+      let now = new Date();
+      let nextPay = new Date(data?.billing_info?.last_payment.time);
+      nextPay.setDate(nextPay.getDate() + 30);
+    
+      eligibe = now < nextPay;
+
+    
+      return data.name === "INVALID_REQUEST" ? null : {...data, eligibe};
+    }
+
+    return null;
+  }
+  catch {
+    return null;
   }
 }

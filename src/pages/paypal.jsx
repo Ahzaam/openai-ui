@@ -5,12 +5,15 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import { initialOptions, planDetails } from "./Config/config";
+import { initialOptions, planDetails } from "../Config/config";
 import { subscribeUserPaypal } from "../service/database";
-const ButtonWrapper = ({ type }) => {
+
+
+const ButtonWrapper = ({ type, user, updateUser }) => {
   const [{ options }, dispatch] = usePayPalScriptReducer();
 
   useEffect(() => {
+    
     dispatch({
       type: "resetOptions",
       value: {
@@ -34,9 +37,10 @@ const ButtonWrapper = ({ type }) => {
       }}
       onApprove={function (data, actions) {
         return actions.subscription.get().then(function (details) {
-          subscribeUserPaypal("123456789123456789", details);
+          subscribeUserPaypal(user.uid, details);
           // Your code here after capture the order
           console.log(details);
+          updateUser();
         });
       }}
       onCancel={() => {
@@ -54,10 +58,10 @@ const ButtonWrapper = ({ type }) => {
   );
 };
 
-export default function Paypal() {
+export default function Paypal({user, updateUser}) {
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <ButtonWrapper type="subscription" />
+    <PayPalScriptProvider options={initialOptions} deferLoading={true}>
+      <ButtonWrapper type="subscription" user={user} updateUser={updateUser}/>
     </PayPalScriptProvider>
   );
 }

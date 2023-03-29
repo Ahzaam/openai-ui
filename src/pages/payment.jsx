@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import { auth } from "../service/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -7,10 +7,20 @@ import Authentication from "./authentication";
 import { createCheckoutSessions } from "../service/stripe/createCheckoutSession";
 import { Link } from "react-router-dom";
 import Paypal from "./paypal";
-export default function Payment({ userIsPremium, userData }) {
-  const [user, userLoading] = useAuthState(auth);
-  // const userIsPremium = usePremiumStatus(user);
+export default function Payment({ userIsPremium, userData , updateUser}) {
 
+  const [user, userLoading] = useAuthState(auth);
+
+  const [premiumStatus, setPremiumStatus] = useState(false);
+
+  useEffect(() => {
+    
+    setPremiumStatus(userIsPremium?.status === "ACTIVE");
+   
+
+  }, [userData,userIsPremium]);
+
+  // const userIsPremium = usePremiumStatus(user);
   return (
     <div>
       {!user && userLoading && <h1>Loading....</h1>}
@@ -20,11 +30,13 @@ export default function Payment({ userIsPremium, userData }) {
           className="flex items-center justify-center"
           style={{ minHeight: "80vh" }}
         >
-          {!userIsPremium ? (
+         
+          {(!userIsPremium || !premiumStatus) ? (
             <Pricing
               user={(user, userIsPremium)}
               userIsPremium={userIsPremium}
               userData={userData}
+              updateUser={updateUser}
             />
           ) : (
             <AlreadySaved />
@@ -35,7 +47,7 @@ export default function Payment({ userIsPremium, userData }) {
   );
 }
 
-function Pricing({ user, userIsPremium, userData }) {
+function Pricing({ user, userIsPremium, userData, updateUser }) {
   // const userIsPremium = usePremiumStatus(user);
   const handleCheckout = () => {
     if (!userIsPremium) {
@@ -49,7 +61,7 @@ function Pricing({ user, userIsPremium, userData }) {
       <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">
-            {user.displayName} Subscribe Now!
+             Subscribe Now!
           </div>
           <p className="text-gray-700 text-base">
             Our AI Writing Tool helps you create ebooks, captions, and blog
@@ -59,7 +71,9 @@ function Pricing({ user, userIsPremium, userData }) {
         </div>
         <span className="text-3xl">20$</span>
 
-        <div className=" px-6 py-4 my-5">{<Paypal />}</div>
+        <div className=" px-6 py-4 my-5">
+          <Paypal user={userData} updateUser={updateUser}/>
+          </div>
       </div>
     </div>
   );

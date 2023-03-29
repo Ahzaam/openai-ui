@@ -1,18 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { useEffect, useState } from "react";
-import { getSubscriptionData, getActivationData } from "../service/database";
-import { functions } from "../service/firebase";
+// import { getSubscriptionData, getActivationData } from "../service/database";
+// import { functions } from "../service/firebase";
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
 import { Link } from "react-router-dom";
+import { api_auth } from "../Config/config";
 
-export default function Profile({ isAuth }) {
+export default function Profile({ isAuth, userIsPremium, updateUser }) {
+
+
 
   const [processing, setProcessing] = useState(true);
   const [user, setUser] = useState(isAuth);
-  const [subid, serSubid] = useState("");
+  const [cancelling, setCancelleing ] =  useState(false);
+  const [isActive, setActive] = useState(false);
   const [resume, setResume] = useState(false);
   const [endAt, setEndAt] = useState(null);
   const [subscription, setSubscription] = useState(null);
+
   useEffect(() => {
     // isLoggedIn().then(res => {
     //   setUser(res);
@@ -20,41 +26,77 @@ export default function Profile({ isAuth }) {
 
     setUser(isAuth);
 
-    getSubscriptionData(isAuth.uid).then((data) => {
+    setResume(userIsPremium?.eligibe);
 
-      if (data.id.length === 1) {
-        console.log("kaham2")
-        serSubid(data.id[0]);
-        setSubscription(data.data[0]);
-        setProcessing(false);
-      }
-      else {
+    const billing_info = userIsPremium?.billing_info;
+    setSubscription(billing_info);
+   
+    let date = new Date(billing_info?.last_payment.time);
+    date.setDate(date.getDate() + 30);
+    setEndAt(date);
+ 
+    setActive(userIsPremium?.eligibe);
 
-        getActivationData(isAuth.uid).then((data) => {
+    // if (userIsPremium?.status === "CANCELLED" || userIsPremium?.status === "SUSPENDED") {
 
-          console.log(data[0]?.status);
-          if (data[0]?.status) {
-            setResume(true)
-            setEndAt(data[0]?.current_period_end.seconds);
+    //   if (endAt < new Date()) {
 
-          }
-          setProcessing(false);
-        })
-      }
+    //     setSubscription(null);
+    //     setResume(true);
+    //     setActive(false);
+    //   }
 
-    });
+    // }
+
+    setProcessing(false);
+    // getSubscriptionData(isAuth.uid).then((data) => {
+
+    //   if (data.id.length === 1) {
+
+    //     serSubid(data.id[0]);
+    //     setSubscription(data.data[0]);
+    //     setProcessing(false);
+    //   }
+    //   else {
+
+    //     getActivationData(isAuth.uid).then((data) => {
+
+    //       console.log(data[0]?.status);
+    //       if (data[0]?.status) {
+    //         setResume(true)
+    //         setEndAt(data[0]?.current_period_end.seconds);
+
+    //       }
+    //       setProcessing(false);
+    //     })
+    //   }
+
+    // });
 
     // console.log(user);
-  }, [isAuth, user]);
+  }, [isAuth, userIsPremium]);
 
-  const handleCancel = () => {
-    console.log(subid);
-    functions
-      .httpsCallable("cancelSubscription")({
-        sub_id: subid,
-      })
+  const handleCancel = async () => {
+
+    setCancelleing(true);
+    fetch(`https://api-m.sandbox.paypal.com/v1/billing/subscriptions/${userIsPremium?.id}/cancel`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": api_auth.auth,
+
+      },
+      body: JSON.stringify({"reason":"Not good enough"}),
+    })
       .then((response) => {
-        console.log(response);
+        if(response.status === 204) {
+
+          updateUser();
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setCancelleing(false);
       });
   };
 
@@ -71,6 +113,10 @@ export default function Profile({ isAuth }) {
               />
               <h2 className="text-2xl font-bold mb-2">{user.name}</h2>
               <p className="text-gray-700">{user.email}</p>
+              {isActive ? <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Active</span> :
+                <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Not Active</span>
+              }
+
             </div>
           </div>
           <div className={"md:w-2/3 md:pl-8 "}
@@ -92,32 +138,49 @@ export default function Profile({ isAuth }) {
                     <div className="flex items-center">
                       <span className="text-gray-800 font-bold">Premium</span>
                       <span className="ml-auto text-gray-600 font-semibold">
-                        {subscription.items[0].plan.amount / 100}$ / month
+                        {subscription.last_payment.amount.value}$ / month
                       </span>
                     </div>
                   </li>
                   <li className="px-6 py-4">
                     <div className="flex items-center">
                       <span className="text-gray-800 font-bold">
-                        Next Payment Date
+                        Status
                       </span>
                       <span className="ml-auto text-gray-600 font-semibold">
-                        {new Date(
-                          subscription.current_period_end.seconds * 1000
-                        ).toDateString()}
+                        {userIsPremium?.status}
                       </span>
                     </div>
                   </li>
-                  <li className="px-6 py-4">
-                    <div className="flex items-center">
-                      <button
-                        onClick={handleCancel}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </li>
+                  {(userIsPremium?.status === "ACTIVE") &&
+                    <>
+                      <li className="px-6 py-4">
+                        <div className="flex items-center">
+                          <span className="text-gray-800 font-bold">
+                            Next Payment Date
+                          </span>
+                          <span className="ml-auto text-gray-600 font-semibold">
+                            {
+                              endAt.toDateString()
+                            }
+                          </span>
+                        </div>
+                      </li>
+                      <li className="px-6 py-4">
+                        <div className="flex items-center">
+                          <button
+                            disabled={cancelling}
+                            onClick={handleCancel}
+                            className={ !cancelling ? "text-white font-bold py-2 px-6 rounded bg-red-500 hover:bg-red-700" : "px-8 py-3 text-white bg-red-300 rounded focus:outline-none"}
+                          >
+                            
+                            Cancel
+                          </button>
+                        </div>
+                      </li>
+                    </>
+
+                  }
                 </ul>
               </div>
             ) : (
@@ -125,21 +188,18 @@ export default function Profile({ isAuth }) {
                 <Card sx={{ maxWidth: 400 }}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {resume ? "Your subscription is set to expire on " + new Date(endAt * 1000).toDateString() : "Don't miss out on our tools - subscribe now!"}
+                      {resume ? "Your subscription expired on " + endAt.toDateString() : "Don't miss out on our tools - subscribe now!"}
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
                       We offer a variety of tools to help you achieve your goals.
                       Subscribe today to unlock access!
                     </Typography>
 
-                    {resume ? <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Active</span> :
-                      <Link to="/payment">
-                        <Button variant="contained" sx={{ mt: 2 }}>
-                          Subscribe Now
-                        </Button>
-                      </Link>
-                    }
-
+                    <Link to="/payment">
+                      <Button variant="contained" sx={{ mt: 2 }}>
+                        Subscribe Now
+                      </Button>
+                    </Link>
 
                   </CardContent>
                 </Card>

@@ -14,12 +14,19 @@ import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
 import usePremiumStatus from "./service/stripe/usePremiumStatus";
-import Paypal from "./pages/paypa";
 export const UserContext = createContext();
 function App() {
+
   const [user, setUser] = useState(getUser().then((user) => user));
   // const [premium, setPremium] = useState(false);
   const premium = usePremiumStatus(user);
+
+
+  const updateUser = () => {
+    console.log("updating user")
+    setUser(getUser().then((user) => user));
+  }
+
 
   useEffect(() => {
     const auth = getAuth();
@@ -55,16 +62,17 @@ function App() {
       </Router>
     );
   }
-  if (user && !premium) {
+  if (user && !premium?.eligibe) {
     return (
       <Router forceRefresh={true}>
         <Navbar isAuth={user} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
+          <Route path="/profile" element={<Profile isAuth={user} userIsPremium={premium} updateUser={updateUser} />}
+          />
           <Route
             path="/*"
-            element={<Payment userIsPremium={premium} userData={user} />}
+            element={<Payment userIsPremium={premium} userData={user} updateUser={updateUser} />}
           />
         </Routes>
       </Router>
@@ -81,9 +89,10 @@ function App() {
           <Route path="/blogpost" element={<BlogPost />} />
           <Route
             path="/payment"
-            element={<Payment userIsPremium={premium} userData={user} />}
+            element={<Payment userIsPremium={premium} userData={user} updateUser={updateUser} />}
           />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
+          <Route path="/profile" element={<Profile isAuth={user} userIsPremium={premium} updateUser={updateUser} />}
+          />
 
           <Route path="/*" element={<Home />} />
         </Routes>

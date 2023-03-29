@@ -12,4 +12,8 @@ export const planDetails = {
   plan_id: "P-6LK71831B2461642FMQRPRSQ",
 };
 
+export const api_auth = {
+ auth :  `Bearer A21AAJQODWCqG1sinczpGF4SDYn0sfQCglZwoEhl6YCklOSN7Y-xKt5Frn5f8KDEBBvebmyuo1-3IolN8h2vK1ZJmQ4aPRG6g`
+}
+
 // EKBB7uMyhbyvFb3Ai3Cyq1eBlOkpDbqr-p4XTeVrdlSzpyjQDIjOzMb4HrP0kH4f3y6eT0hr43QNPX55
