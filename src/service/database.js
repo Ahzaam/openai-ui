@@ -49,3 +49,24 @@ export async function getActivationData(uid) {
       });
   });
 }
+export async function subscribeUserPaypal(uid, payments_details) {
+  // console.log(uid, payments_details);
+  return firestore
+    .collection("users")
+    .doc(uid)
+    .collection("subscriptions")
+    .add(payments_details);
+}
+export async function getSubscribedUserPaypal(uid) {
+  return new Promise((resolve, reject) => {
+    return firestore
+      .collection("users")
+      .doc(uid)
+      .collection("subscriptions")
+      .where("status", "==", "ACTIVE")
+      .get()
+      .then((response) => {
+        resolve(response.docs.map((doc) => doc.data()));
+      });
+  });
+}

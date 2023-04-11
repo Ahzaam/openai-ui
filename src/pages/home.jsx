@@ -31,7 +31,6 @@ export default function Home() {
                 className=" w-48"
                 src={video}
                 type="video/mp4"
-                onCanPlayThrough={(e) => e.target.play()}
                 autoPlay
                 loop
               ></video>

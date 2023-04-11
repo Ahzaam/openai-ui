@@ -4,7 +4,7 @@ import GetCaption from "./pages/caption";
 import { useState, createContext, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Home from "./pages/home";
-import Authenticate from './pages/authentication';
+import Authenticate from "./pages/authentication";
 import { getUser } from "./service/authentication";
 import Payment from "./pages/payment";
 import Navbar from "./pages/navbar";
@@ -13,13 +13,20 @@ import Profile from "./pages/profile";
 import GenEbook from "./pages/ebook";
 import BlogPost from "./pages/blogpost";
 import { getSubscriptionData } from "./service/database";
-import usePremiumStatus from "./service/stripe/usePremiumStatus";
-
+import usePremiumStatus from "./service/paypal/usePremiumStatus";
 export const UserContext = createContext();
 function App() {
+
   const [user, setUser] = useState(getUser().then((user) => user));
   // const [premium, setPremium] = useState(false);
   const premium = usePremiumStatus(user);
+
+
+  const updateUser = () => {
+  
+    setUser(getUser().then((user) => user));
+  }
+
 
   useEffect(() => {
     const auth = getAuth();
@@ -28,19 +35,14 @@ function App() {
       if (user) {
         // User is signed in
         await isLoggedIn().then((res) => {
-
           setUser(user);
         });
 
         getSubscriptionData(user.uid).then((data) => {
-
           if (data.data[0]?.status === "active") {
             // setPremium(true);
           }
-
         });
-
-
       } else {
         // User is signed out
         // console.log("User is not signed in");
@@ -60,14 +62,18 @@ function App() {
       </Router>
     );
   }
-  if (user && !premium) {
+  if (user && !premium?.eligible) {
     return (
       <Router forceRefresh={true}>
         <Navbar isAuth={user} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
-          <Route path="/*" element={<Payment userIsPremium={premium} userData={user} />} />
+          <Route path="/profile" element={<Profile isAuth={user} userIsPremium={premium} updateUser={updateUser} />}
+          />
+          <Route
+            path="/*"
+            element={<Payment userIsPremium={premium} userData={user} updateUser={updateUser} />}
+          />
         </Routes>
       </Router>
     );
@@ -81,8 +87,12 @@ function App() {
           <Route path="/caption" element={<GetCaption />} />
           <Route path="/ebook" element={<GenEbook />} />
           <Route path="/blogpost" element={<BlogPost />} />
-          <Route path="/payment" element={<Payment userIsPremium={premium} userData={user} />} />
-          <Route path="/profile" element={<Profile isAuth={user} />} />
+          <Route
+            path="/payment"
+            element={<Payment userIsPremium={premium} userData={user} updateUser={updateUser} />}
+          />
+          <Route path="/profile" element={<Profile isAuth={user} userIsPremium={premium} updateUser={updateUser} />}
+          />
 
           <Route path="/*" element={<Home />} />
         </Routes>

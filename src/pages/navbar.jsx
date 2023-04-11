@@ -23,7 +23,7 @@ export default function Navbar({ isAuth }) {
 
     setUser(isAuth);
     // console.log(user);
-  }, [isAuth,user]);
+  }, [isAuth, user]);
 
   const logoutAccount = () => {
     setUser(null);
@@ -54,7 +54,7 @@ export default function Navbar({ isAuth }) {
                 ></path>
               </svg>
               <span className="self-center mx-4 text-xl font-semibold whitespace-nowrap ">
-                ChatGPT
+                TypeWand
               </span>
             </span>
           </Link>
@@ -141,10 +141,12 @@ function Profile({ profilePic, logoutAccount }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={()=>{
-          handleClose();
-          navigate('/profile');
-        }}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate("/profile");
+          }}
+        >
           <Avatar alt="John Doe" src={profilePic} /> Profile
         </MenuItem>
 
